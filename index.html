@@ -1,0 +1,4900 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#060d18" />
+  <title>Do Trong Hoa (andrewtuff) — Samsung Module &amp; OneUI Portfolio</title>
+  <meta name="description" content="Portfolio of Do Trong Hoa (andrewtuff) — Newbie Samsung module creator specializing in Galaxy AI, Now Brief, AOD, and OneUI customization tools." />
+
+  <!-- Google Fonts: Inter (only allowed external resource) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ==========================================================================
+       1. DESIGN TOKENS — NATURE GREENS, WARM EARTH & SUNRISE ACCENTS
+       ========================================================================== */
+    :root {
+      --bg-navy-deep: #050a14;
+      --bg-navy: #091322;
+      --bg-forest-deep: #0c1f1c;
+      --bg-earth-warm: #2a1812;
+
+      --accent-sage: #58b878;
+      --accent-emerald: #349b63;
+      --accent-earth: #d97757;
+      --accent-coral: #f06d58;
+      --accent-amber: #f7a64b;
+      --accent-gold: #ffd479;
+      --warm-white: #fdf9f2;
+
+      --text-primary: #fcf8f0;
+      --text-secondary: rgba(252, 248, 240, 0.76);
+      --text-muted: rgba(252, 248, 240, 0.50);
+
+      --glass-bg: rgba(11, 20, 34, 0.62);
+      --glass-bg-hover: rgba(17, 30, 48, 0.78);
+      --glass-border: rgba(255, 226, 178, 0.13);
+      --glass-border-hover: rgba(255, 212, 121, 0.36);
+
+      --ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);
+      --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+      --ease-door: cubic-bezier(0.74, 0, 0.22, 1);
+
+      --day-cycle: 36s;
+      --day-offset: -3s;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background-color: var(--bg-navy-deep);
+      color: var(--text-primary);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overscroll-behavior-y: none;
+    }
+
+    body {
+      min-height: 100vh;
+      background-color: var(--bg-navy-deep);
+      color: var(--text-primary);
+      overflow-x: hidden;
+      overflow-y: hidden;
+      line-height: 1.6;
+      position: relative;
+    }
+
+    body.portfolio-unlocked {
+      overflow-y: auto;
+    }
+
+    @media (hover: hover) {
+      body,
+      a,
+      button,
+      [role="button"] {
+        cursor: none;
+      }
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    [role="button"] {
+      font-family: inherit;
+      border: none;
+      background: none;
+      color: inherit;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 9px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #050a14;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, var(--accent-emerald), var(--accent-amber), var(--accent-coral));
+      border-radius: 99px;
+      border: 2px solid #050a14;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(180deg, var(--accent-sage), var(--accent-gold), var(--accent-earth));
+    }
+
+    /* ==========================================================================
+       2. WIND PARTICLE CANVAS (LANDING + MAIN PAGE)
+       ========================================================================== */
+    #wind-canvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 62;
+      will-change: transform;
+    }
+
+    /* Scroll Momentum Progress Track */
+    .scroll-progress-track {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      z-index: 48;
+      background: rgba(255, 255, 255, 0.04);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 400ms ease;
+    }
+
+    body.portfolio-unlocked .scroll-progress-track {
+      opacity: 1;
+    }
+
+    .scroll-progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent-sage), var(--accent-gold), var(--accent-coral));
+      box-shadow: 0 0 14px rgba(255, 212, 121, 0.72);
+      transform-origin: left center;
+      transition: filter 200ms ease;
+      will-change: width;
+    }
+
+    /* ==========================================================================
+       3. LANGUAGE SWITCHER (PILL CONTROLS)
+       ========================================================================== */
+    .lang-switcher {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px;
+      border-radius: 999px;
+      background: rgba(7, 14, 26, 0.62);
+      border: 1px solid rgba(255, 232, 192, 0.2);
+      backdrop-filter: blur(14px) saturate(150%);
+      -webkit-backdrop-filter: blur(14px) saturate(150%);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+    }
+
+    .lang-switcher--landing {
+      position: fixed;
+      top: max(18px, env(safe-area-inset-top, 18px));
+      right: max(18px, env(safe-area-inset-right, 18px));
+      z-index: 72;
+      transition: opacity 350ms ease, transform 350ms var(--ease-out-expo);
+    }
+
+    .intro-doors.is-opening .lang-switcher--landing {
+      opacity: 0;
+      transform: translateY(-10px);
+      pointer-events: none;
+    }
+
+    .lang-pill {
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      color: rgba(252, 248, 240, 0.75);
+      transition: background-color 300ms ease, color 300ms ease, transform 300ms var(--ease-spring), box-shadow 300ms ease;
+    }
+
+    .lang-pill:hover {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .lang-pill.is-active {
+      color: #16110a;
+      background: linear-gradient(135deg, #fff6dc 0%, #ffd479 55%, #f49b56 100%);
+      box-shadow: 0 2px 12px rgba(255, 212, 121, 0.45);
+    }
+
+    .lang-switcher--nav .lang-pill {
+      padding: 5px 10px;
+      font-size: 0.74rem;
+    }
+
+    /* ---- Language Switch Animation ---- */
+    @keyframes langPillPop {
+      0%   { transform: scale(1); }
+      30%  { transform: scale(1.25); }
+      60%  { transform: scale(0.92); }
+      100% { transform: scale(1); }
+    }
+    .lang-pill.is-popping {
+      animation: langPillPop 420ms cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    /* Ripple overlay that expands from switcher */
+    .lang-ripple-overlay {
+      position: fixed;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      background: radial-gradient(circle, rgba(255,212,121,0.25) 0%, rgba(255,180,80,0.08) 40%, transparent 70%);
+      transform: scale(0);
+      opacity: 1;
+      will-change: transform, opacity;
+    }
+    .lang-ripple-overlay.is-expanding {
+      animation: langRippleExpand 650ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+    @keyframes langRippleExpand {
+      0%   { transform: scale(0); opacity: 1; }
+      60%  { opacity: 0.7; }
+      100% { transform: scale(1); opacity: 0; }
+    }
+
+    /* Text transition classes */
+    [data-i18n].lang-fade-out,
+    [data-extra-i18n].lang-fade-out {
+      display: inline-block;
+      animation: langTextOut 220ms ease forwards;
+    }
+    [data-i18n].lang-fade-in,
+    [data-extra-i18n].lang-fade-in {
+      display: inline-block;
+      animation: langTextIn 320ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    @keyframes langTextOut {
+      0%   { opacity: 1; filter: blur(0); transform: translateY(0); }
+      100% { opacity: 0; filter: blur(6px); transform: translateY(-8px); }
+    }
+    @keyframes langTextIn {
+      0%   { opacity: 0; filter: blur(6px); transform: translateY(10px); }
+      40%  { filter: blur(2px); }
+      100% { opacity: 1; filter: blur(0); transform: translateY(0); }
+    }
+
+    /* ==========================================================================
+       4. LANDING PAGE — SPLIT DOORS + DRAMATIC GOD-RAY LIGHT PORTAL
+       ========================================================================== */
+    .intro-doors {
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      overflow: hidden;
+      perspective: 1700px;
+      background: #060d18;
+    }
+
+    .intro-doors.is-hidden {
+      display: none;
+      pointer-events: none;
+      visibility: hidden;
+    }
+
+    /* Camera shake & forward zoom burst during door opening */
+    .intro-doors.is-opening {
+      animation: portalCameraBurst 1.75s var(--ease-out-expo) forwards;
+    }
+
+    @keyframes portalCameraBurst {
+      0%   { transform: scale(1) translate3d(0, 0, 0); }
+      6%   { transform: scale(1.006) translate3d(-3px, 2px, 0); }
+      12%  { transform: scale(1.012) translate3d(4px, -2px, 0); }
+      18%  { transform: scale(1.018) translate3d(-3px, -2px, 0); }
+      25%  { transform: scale(1.024) translate3d(2px, 2px, 0); }
+      35%  { transform: scale(1.032) translate3d(0, 0, 0); }
+      100% { transform: scale(1.08) translate3d(0, 0, 0); }
+    }
+
+    /* Dramatic Volumetric Light Portal behind the splitting doors */
+    .door-light-portal {
+      position: fixed;
+      inset: 0;
+      z-index: 51;
+      pointer-events: none;
+      overflow: hidden;
+      opacity: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at 50% 50%, rgba(255, 250, 232, 0.96) 0%, rgba(255, 212, 121, 0.65) 30%, rgba(240, 109, 88, 0.2) 65%, transparent 90%);
+    }
+
+    .intro-doors.is-opening .door-light-portal {
+      animation: portalLightFlood 1.75s var(--ease-out-expo) forwards;
+    }
+
+    @keyframes portalLightFlood {
+      0%   { opacity: 0; transform: scale(0.4); }
+      18%  { opacity: 0.92; transform: scale(0.85); }
+      48%  { opacity: 1; transform: scale(1.28); }
+      78%  { opacity: 0.95; transform: scale(1.75); }
+      100% { opacity: 0; transform: scale(2.1); }
+    }
+
+    .god-rays-primary {
+      position: absolute;
+      width: 220vmax;
+      height: 220vmax;
+      border-radius: 50%;
+      background: repeating-conic-gradient(
+        from 0deg,
+        rgba(255, 252, 238, 0.65) 0deg 6deg,
+        transparent 6deg 18deg,
+        rgba(255, 214, 128, 0.42) 18deg 22deg,
+        transparent 22deg 36deg
+      );
+      -webkit-mask-image: radial-gradient(circle, #000 0%, rgba(0, 0, 0, 0.72) 34%, transparent 70%);
+      mask-image: radial-gradient(circle, #000 0%, rgba(0, 0, 0, 0.72) 34%, transparent 70%);
+      animation: portalRaysSpin 14s linear infinite;
+    }
+
+    .god-rays-secondary {
+      position: absolute;
+      width: 190vmax;
+      height: 190vmax;
+      border-radius: 50%;
+      background: repeating-conic-gradient(
+        from 14deg,
+        rgba(255, 240, 200, 0.52) 0deg 4deg,
+        transparent 4deg 24deg
+      );
+      -webkit-mask-image: radial-gradient(circle, #000 8%, rgba(0, 0, 0, 0.5) 45%, transparent 72%);
+      mask-image: radial-gradient(circle, #000 8%, rgba(0, 0, 0, 0.5) 45%, transparent 72%);
+      animation: portalRaysSpinRev 18s linear infinite;
+    }
+
+    @keyframes portalRaysSpin {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+
+    @keyframes portalRaysSpinRev {
+      from { transform: rotate(360deg); }
+      to   { transform: rotate(0deg); }
+    }
+
+    .portal-vertical-beam {
+      position: absolute;
+      top: -10%;
+      bottom: -10%;
+      left: 50%;
+      width: 26vw;
+      transform: translateX(-50%) scaleX(0.12);
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 224, 150, 0.5) 22%,
+        rgba(255, 255, 250, 0.98) 50%,
+        rgba(255, 224, 150, 0.5) 78%,
+        transparent 100%
+      );
+      filter: blur(18px);
+      opacity: 0;
+    }
+
+    .intro-doors.is-opening .portal-vertical-beam {
+      animation: verticalBeamExpand 1.65s var(--ease-out-expo) forwards;
+    }
+
+    @keyframes verticalBeamExpand {
+      0%   { transform: translateX(-50%) scaleX(0.08); opacity: 0; }
+      20%  { transform: translateX(-50%) scaleX(0.85); opacity: 1; }
+      58%  { transform: translateX(-50%) scaleX(4.2); opacity: 0.95; }
+      100% { transform: translateX(-50%) scaleX(7.5); opacity: 0; }
+    }
+
+    /* Door Panels */
+    .door-panel {
+      position: fixed;
+      top: 0;
+      width: 50vw;
+      height: 100vh;
+      height: 100dvh;
+      z-index: 52;
+      overflow: hidden;
+      will-change: transform, opacity, filter;
+      backface-visibility: hidden;
+      transition:
+        transform 1450ms var(--ease-door),
+        opacity 650ms ease 980ms,
+        filter 1100ms ease;
+    }
+
+    .door-left {
+      left: 0;
+      transform-origin: left center;
+      box-shadow: inset -1px 0 0 rgba(255, 240, 200, 0.16);
+    }
+
+    .door-right {
+      right: 0;
+      transform-origin: right center;
+      box-shadow: inset 1px 0 0 rgba(255, 240, 200, 0.16);
+    }
+
+    .door-scene-viewport {
+      position: absolute;
+      top: 0;
+      width: 100vw;
+      height: 100%;
+    }
+
+    .door-left .door-scene-viewport {
+      left: 0;
+    }
+
+    .door-right .door-scene-viewport {
+      left: -50vw;
+    }
+
+    .intro-doors.is-opening .door-left {
+      transform: translateX(-108%) rotateY(22deg);
+      filter: brightness(1.38) contrast(1.04);
+      opacity: 0;
+    }
+
+    .intro-doors.is-opening .door-right {
+      transform: translateX(108%) rotateY(-22deg);
+      filter: brightness(1.38) contrast(1.04);
+      opacity: 0;
+    }
+
+    /* Brilliant Center Crack Flash */
+    .door-center-seam {
+      position: fixed;
+      top: 0;
+      left: 50%;
+      width: 8px;
+      height: 100%;
+      transform: translateX(-50%) scaleY(0.05);
+      background: linear-gradient(
+        180deg,
+        transparent 0%,
+        rgba(255, 224, 138, 0.85) 18%,
+        #ffffff 50%,
+        rgba(255, 224, 138, 0.85) 82%,
+        transparent 100%
+      );
+      box-shadow:
+        0 0 24px 8px rgba(255, 255, 245, 0.96),
+        0 0 70px 24px rgba(255, 212, 121, 0.82),
+        0 0 140px 44px rgba(247, 146, 74, 0.55);
+      z-index: 56;
+      pointer-events: none;
+      opacity: 0;
+    }
+
+    .intro-doors.is-opening .door-center-seam {
+      animation: centerCrackFlare 1.25s var(--ease-out-expo) forwards;
+    }
+
+    @keyframes centerCrackFlare {
+      0%   { transform: translateX(-50%) scaleY(0.1) scaleX(0.5); opacity: 0; }
+      14%  { transform: translateX(-50%) scaleY(1) scaleX(2.4); opacity: 1; }
+      45%  { transform: translateX(-50%) scaleY(1.04) scaleX(5); opacity: 0.9; }
+      100% { transform: translateX(-50%) scaleY(1.1) scaleX(12); opacity: 0; }
+    }
+
+    /* ==========================================================================
+       5. CSS ART GARDEN SCENE — 36s DAY/NIGHT CYCLE, HILLS, WINDMILL & FLOWERS
+       ========================================================================== */
+    .garden-stage {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: linear-gradient(180deg, #040818 0%, #091534 55%, #162952 100%);
+    }
+
+    /* Multi-Layer Sky Transitions (Night -> Dawn -> Day -> Sunset -> Night) */
+    .sky-layer {
+      position: absolute;
+      inset: 0;
+      will-change: opacity;
+    }
+
+    .sky-dawn {
+      background: linear-gradient(
+        180deg,
+        #101b42 0%,
+        #5e3869 34%,
+        #dd6d6b 68%,
+        #ffb26b 90%,
+        #ffe0a3 100%
+      );
+      animation: skyDawnPhase var(--day-cycle) linear infinite;
+      animation-delay: var(--day-offset);
+    }
+
+    .sky-day {
+      background: linear-gradient(
+        180deg,
+        #1e70d6 0%,
+        #4faaf6 46%,
+        #a3e0ff 82%,
+        #d8f5ff 100%
+      );
+      animation: skyDayPhase var(--day-cycle) linear infinite;
+      animation-delay: var(--day-offset);
+    }
+
+    .sky-sunset {
+      background: linear-gradient(
+        180deg,
+        #141d46 0%,
+        #7f2d4f 34%,
+        #df4f38 66%,
+        #ff9040 88%,
+        #ffd072 100%
+      );
+      animation: skySunsetPhase var(--day-cycle) linear infinite;
+      animation-delay: var(--day-offset);
+    }
+
+    @keyframes skyDawnPhase {
+      0%, 100% { opacity: 0; }
+      5%  { opacity: 0.72; }
+      10% { opacity: 1; }
+      18% { opacity: 0.15; }
+      24%, 95% { opacity: 0; }
+    }
+
+    @keyframes skyDayPhase {
+      0%, 10%, 100% { opacity: 0; }
+      18% { opacity: 0.85; }
+      24%, 36% { opacity: 1; }
+      43% { opacity: 0.15; }
+      48%, 99% { opacity: 0; }
+    }
+
+    @keyframes skySunsetPhase {
+      0%, 35%, 100% { opacity: 0; }
+      42% { opacity: 0.88; }
+      47% { opacity: 1; }
+      54% { opacity: 0.35; }
+      60%, 99% { opacity: 0; }
+    }
+
+    /* Twinkling Starfield (Fades out during day, bright at night) */
+    .stars-layer {
+      position: absolute;
+      inset: 0 0 38% 0;
+      pointer-events: none;
+      animation: starsVisibility var(--day-cycle) linear infinite;
+      animation-delay: var(--day-offset);
+      will-change: opacity;
+    }
+
+    @keyframes starsVisibility {
+      0%, 100% { opacity: 0.96; }
+      6%  { opacity: 0.35; }
+      14%, 42% { opacity: 0; }
+      50% { opacity: 0.45; }
+      58%, 94% { opacity: 1; }
+    }
+
+    .star {
+      position: absolute;
+      border-radius: 50%;
+      background: #fffcf0;
+      box-shadow: 0 0 7px rgba(255, 248, 224, 0.9);
+      animation: starTwinkle 3.4s ease-in-out infinite;
+    }
+
+    @keyframes starTwinkle {
+      0%, 100% { opacity: 0.3; transform: scale(0.85); }
+      50%      { opacity: 1; transform: scale(1.25); }
+    }
+
+    /* Sun Orbit (Rises left horizon -> crosses zenith -> sets right horizon) */
+    .sun-orbit-item {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 0;
+      height: 0;
+      pointer-events: none;
+      will-change: transform, opacity;
+      animation: sunArcCycle var(--day-cycle) linear infinite;
+      animation-delay: var(--day-offset);
+    }
+
+    @keyframes sunArcCycle {
+      0%   { transform: translate3d(2vw, -10vh, 0); opacity: 0; }
+      4%   { transform: translate3d(6vw, -18vh, 0); opacity: 0.55; }
+      9%   { transform: translate3d(14.8vw, -35.3vh, 0); opacity: 1; }
+      14%  { transform: translate3d(23.6vw, -50.9vh, 0); opacity: 1; }
+      19%  { transform: translate3d(32.4vw, -63.3vh, 0); opacity: 1; }
+      24%  { transform: translate3d(41.2vw, -71.3vh, 0); opacity: 1; }
+      28%  { transform: translate3d(50vw, -74.5vh, 0); opacity: 1; }
+      33%  { transform: translate3d(58.8vw, -71.3vh, 0); opacity: 1; }
+      38%  { transform: translate3d(67.6vw, -63.3vh, 0); opacity: 1; }
+      43%  { transform: translate3d(76.4vw, -50.9vh, 0); opacity: 1; }
+      48%  { transform: translate3d(85.2vw, -35.3vh, 0); opacity: 1; }
+      53%  { transform: translate3d(94vw, -18vh, 0); opacity: 0.45; }
+      57%  { transform: translate3d(98vw, -10vh, 0); opacity: 0; }
+      99%  { transform: translate3d(98vw, -10vh, 0); opacity: 0; }
+      100% { transform: translate3d(2vw, -10vh, 0); opacity: 0; }
+    }
+
+    .sun-halo {
+      position: absolute;
+      width: clamp(190px, 28vw, 340px);
+      height: clamp(190px, 28vw, 340px);
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      background: radial-gradient(
+        circle,
+        rgba(255, 246, 204, 0.58) 0%,
+        rgba(255, 200, 108, 0.28) 34%,
+        rgba(240, 109, 88, 0.1) 60%,
+        transparent 75%
+      );
+      animation: celestialPulse 4.5s ease-in-out infinite;
+    }
+
+    .sun-disc {
+      position: absolute;
+      width: clamp(68px, 8.5vw, 106px);
+      height: clamp(68px, 8.5vw, 106px);
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      background: radial-gradient(circle at 38% 36%, #ffffff 0%, #fff4c6 36%, #ffc75f 74%, #f47e4e 100%);
+      box-shadow:
+        0 0 36px 8px rgba(255, 224, 134, 0.85),
+        0 0 84px 24px rgba(247, 152, 74, 0.48);
+    }
+
+    /* Moon Orbit (Appears during night phase, fades during day) */
+    .moon-orbit-item {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 0;
+      height: 0;
+      pointer-events: none;
+      will-change: transform, opacity;
+      animation: moonArcCycle var(--day-cycle) linear infinite;
+      animation-delay: var(--day-offset);
+    }
+
+    @keyframes moonArcCycle {
+      0%, 50% { transform: translate3d(4vw, -10vh, 0); opacity: 0; }
+      55%     { transform: translate3d(10vw, -22vh, 0); opacity: 0.85; }
+      61%     { transform: translate3d(20vw, -43vh, 0); opacity: 1; }
+      67%     { transform: translate3d(32vw, -60vh, 0); opacity: 1; }
+      74%     { transform: translate3d(48vw, -71vh, 0); opacity: 1; }
+      81%     { transform: translate3d(65vw, -63vh, 0); opacity: 1; }
+      88%     { transform: translate3d(80vw, -44vh, 0); opacity: 1; }
+      94%     { transform: translate3d(92vw, -20vh, 0); opacity: 0.72; }
+      98%     { transform: translate3d(97vw, -10vh, 0); opacity: 0; }
+      100%    { transform: translate3d(4vw, -10vh, 0); opacity: 0; }
+    }
+
+    .moon-halo {
+      position: absolute;
+      width: clamp(140px, 20vw, 220px);
+      height: clamp(140px, 20vw, 220px);
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      background: radial-gradient(
+        circle,
+        rgba(220, 234, 255, 0.38) 0%,
+        rgba(160, 198, 255, 0.15) 45%,
+        transparent 74%
+      );
+      animation: celestialPulse 5s ease-in-out infinite;
+    }
+
+    .moon-disc {
+      position: absolute;
+      width: clamp(54px, 6.8vw, 82px);
+      height: clamp(54px, 6.8vw, 82px);
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      background: radial-gradient(circle at 32% 30%, #ffffff 0%, #eef4ff 48%, #c7d6ee 85%, #a7badb 100%);
+      box-shadow:
+        0 0 28px 6px rgba(220, 236, 255, 0.6),
+        inset -10px -8px 18px rgba(112, 136, 178, 0.42);
+      overflow: hidden;
+    }
+
+    .moon-crater {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(140, 162, 198, 0.28);
+      box-shadow: inset 1px 1px 3px rgba(96, 118, 156, 0.32);
+    }
+    .moon-crater--1 { width: 16px; height: 16px; top: 18%; left: 26%; }
+    .moon-crater--2 { width: 11px; height: 11px; top: 52%; left: 56%; }
+    .moon-crater--3 { width: 8px;  height: 8px;  top: 64%; left: 28%; }
+
+    @keyframes celestialPulse {
+      0%, 100% { transform: translate(-50%, -50%) scale(0.95); opacity: 0.82; }
+      50%      { transform: translate(-50%, -50%) scale(1.08); opacity: 1; }
+    }
+
+    /* Drifting Clouds */
+    .clouds-layer {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .cloud {
+      position: absolute;
+      border-radius: 999px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.92) 0%, rgba(232, 240, 252, 0.72) 100%);
+      box-shadow: 0 8px 22px rgba(20, 38, 68, 0.14);
+      will-change: transform, opacity;
+      animation-name: cloudDrift, cloudPhaseTone;
+      animation-timing-function: linear, linear;
+      animation-iteration-count: infinite, infinite;
+    }
+
+    .cloud::before,
+    .cloud::after {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+      background: inherit;
+    }
+
+    .cloud--1 {
+      top: 12%;
+      left: -22%;
+      width: 170px;
+      height: 44px;
+      animation-duration: 38s, var(--day-cycle);
+      animation-delay: -6s, var(--day-offset);
+    }
+    .cloud--1::before { width: 78px; height: 78px; top: -36px; left: 24px; }
+    .cloud--1::after  { width: 60px; height: 60px; top: -24px; right: 22px; }
+
+    .cloud--2 {
+      top: 23%;
+      left: -26%;
+      width: 220px;
+      height: 52px;
+      animation-duration: 48s, var(--day-cycle);
+      animation-delay: -22s, var(--day-offset);
+    }
+    .cloud--2::before { width: 96px; height: 96px; top: -46px; left: 36px; }
+    .cloud--2::after  { width: 72px; height: 72px; top: -30px; right: 32px; }
+
+    .cloud--3 {
+      top: 16%;
+      left: -20%;
+      width: 140px;
+      height: 36px;
+      animation-duration: 33s, var(--day-cycle);
+      animation-delay: -14s, var(--day-offset);
+    }
+    .cloud--3::before { width: 64px; height: 64px; top: -30px; left: 22px; }
+    .cloud--3::after  { width: 48px; height: 48px; top: -20px; right: 18px; }
+
+    .cloud--4 {
+      top: 31%;
+      left: -24%;
+      width: 195px;
+      height: 46px;
+      animation-duration: 44s, var(--day-cycle);
+      animation-delay: -32s, var(--day-offset);
+    }
+    .cloud--4::before { width: 84px; height: 84px; top: -38px; left: 32px; }
+    .cloud--4::after  { width: 64px; height: 64px; top: -26px; right: 28px; }
+
+    .cloud--5 {
+      top: 8%;
+      left: -18%;
+      width: 156px;
+      height: 38px;
+      animation-duration: 52s, var(--day-cycle);
+      animation-delay: -40s, var(--day-offset);
+    }
+    .cloud--5::before { width: 72px; height: 72px; top: -32px; left: 26px; }
+    .cloud--5::after  { width: 52px; height: 52px; top: -22px; right: 22px; }
+
+    @keyframes cloudDrift {
+      0%   { transform: translateX(-10vw); }
+      100% { transform: translateX(142vw); }
+    }
+
+    @keyframes cloudPhaseTone {
+      0%, 100% { opacity: 0.24; filter: brightness(0.45) saturate(0.7); }
+      10%      { opacity: 0.78; filter: brightness(0.98) sepia(0.25) hue-rotate(-14deg); }
+      22%, 36% { opacity: 0.92; filter: brightness(1.04) saturate(1); }
+      47%      { opacity: 0.80; filter: brightness(0.95) sepia(0.32) hue-rotate(-18deg); }
+      58%, 94% { opacity: 0.24; filter: brightness(0.42) saturate(0.65); }
+    }
+
+    /* Warm Horizon Glow */
+    .horizon-glow {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 22vh;
+      height: 22vh;
+      pointer-events: none;
+      background: radial-gradient(
+        ellipse 80% 100% at 50% 100%,
+        rgba(255, 206, 134, 0.5) 0%,
+        rgba(240, 118, 92, 0.22) 52%,
+        transparent 80%
+      );
+      animation: horizonGlowCycle var(--day-cycle) linear infinite;
+      animation-delay: var(--day-offset);
+    }
+
+    @keyframes horizonGlowCycle {
+      0%, 100% { opacity: 0.08; }
+      9%       { opacity: 0.92; }
+      24%, 34% { opacity: 0.28; }
+      46%      { opacity: 0.96; }
+      58%, 95% { opacity: 0.08; }
+    }
+
+    /* ==========================================================================
+       6. ROLLING GREEN HILLS & CSS ART WINDMILL
+       ========================================================================== */
+    .garden-hills {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .hill {
+      position: absolute;
+      border-radius: 50% 50% 0 0;
+    }
+
+    /* Distant soft sage hills */
+    .hill--far-left {
+      width: 96vw;
+      height: 36vh;
+      left: -18vw;
+      bottom: 4vh;
+      background: linear-gradient(180deg, #3b8259 0%, #24573e 65%, #163b2a 100%);
+      box-shadow: inset 0 10px 28px rgba(154, 232, 168, 0.16);
+    }
+
+    .hill--far-right {
+      width: 88vw;
+      height: 34vh;
+      right: -20vw;
+      bottom: 4vh;
+      background: linear-gradient(180deg, #337652 0%, #1f4f38 68%, #133425 100%);
+      box-shadow: inset 0 10px 26px rgba(144, 224, 162, 0.14);
+    }
+
+    /* Midground emerald meadow hill (where the windmill sits!) */
+    .hill--mid-left {
+      width: 95vw;
+      height: 30vh;
+      left: -12vw;
+      bottom: -4vh;
+      background: linear-gradient(180deg, #4da453 0%, #317a40 58%, #1e522b 100%);
+      box-shadow: inset 0 12px 30px rgba(190, 245, 150, 0.2);
+    }
+
+    .hill--mid-right {
+      width: 86vw;
+      height: 27vh;
+      right: -16vw;
+      bottom: -4vh;
+      background: linear-gradient(180deg, #43974d 0%, #2a6e39 60%, #1a4927 100%);
+      box-shadow: inset 0 10px 26px rgba(176, 236, 142, 0.16);
+    }
+
+    /* Foreground lush meadow */
+    .hill--fore {
+      width: 132vw;
+      height: 19vh;
+      left: -16vw;
+      bottom: -5vh;
+      background: linear-gradient(180deg, #5ab855 0%, #34843d 48%, #1b4f26 92%, #13381b 100%);
+      box-shadow: inset 0 14px 28px rgba(212, 250, 156, 0.22);
+    }
+
+    .meadow-ground-strip {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 5.5vh;
+      background: linear-gradient(180deg, rgba(24, 70, 34, 0) 0%, rgba(16, 48, 22, 0.85) 60%, #0e2c15 100%);
+    }
+
+    /* --- CSS ART WINDMILL (CỐI XAY GIÓ) --- */
+    .windmill {
+      position: absolute;
+      left: 25%;
+      bottom: 19.5vh;
+      width: 112px;
+      height: 210px;
+      transform: translateX(-50%);
+      transform-origin: bottom center;
+      z-index: 4;
+      pointer-events: none;
+    }
+
+    @media (max-width: 768px) {
+      .windmill {
+        left: 21%;
+        bottom: 18.5vh;
+        transform: translateX(-50%) scale(0.78);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .windmill {
+        left: 19%;
+        bottom: 18vh;
+        transform: translateX(-50%) scale(0.64);
+      }
+    }
+
+    .windmill-ground-shadow {
+      position: absolute;
+      bottom: -5px;
+      left: 50%;
+      width: 108px;
+      height: 16px;
+      transform: translateX(-50%);
+      border-radius: 50%;
+      background: rgba(10, 34, 16, 0.44);
+      filter: blur(3px);
+    }
+
+    /* Stone Foundation */
+    .windmill-base {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 96px;
+      height: 48px;
+      transform: translateX(-50%);
+      clip-path: polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%);
+      background:
+        repeating-linear-gradient(
+          0deg,
+          transparent 0px,
+          transparent 10px,
+          rgba(48, 36, 32, 0.24) 10px,
+          rgba(48, 36, 32, 0.24) 12px
+        ),
+        linear-gradient(90deg, #6f645e 0%, #9b8e84 42%, #7d7068 78%, #574e48 100%);
+      box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.25);
+    }
+
+    /* Arched Wooden Door */
+    .windmill-door {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 24px;
+      height: 32px;
+      transform: translateX(-50%);
+      border-radius: 12px 12px 0 0;
+      background: linear-gradient(90deg, #5a3420 0%, #7d4a2d 55%, #4d2b19 100%);
+      border: 2px solid #3d2113;
+      border-bottom: none;
+    }
+
+    .windmill-door::after {
+      content: '';
+      position: absolute;
+      right: 4px;
+      top: 15px;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: #f5c96b;
+    }
+
+    /* Mid Tower Body */
+    .windmill-tower {
+      position: absolute;
+      bottom: 46px;
+      left: 50%;
+      width: 78px;
+      height: 108px;
+      transform: translateX(-50%);
+      clip-path: polygon(16% 0%, 84% 0%, 100% 100%, 0% 100%);
+      background:
+        repeating-linear-gradient(
+          90deg,
+          transparent 0px,
+          transparent 9px,
+          rgba(128, 86, 52, 0.14) 9px,
+          rgba(128, 86, 52, 0.14) 11px
+        ),
+        linear-gradient(90deg, #d2bfa7 0%, #f5eadb 42%, #dfc9ae 78%, #ab9074 100%);
+    }
+
+    /* Timber Cross Trim on Tower */
+    .windmill-trim-band {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 6px;
+      background: linear-gradient(90deg, #5a351e, #845132, #53301a);
+    }
+    .windmill-trim-band--top { top: 0; }
+    .windmill-trim-band--mid { top: 54px; }
+    .windmill-trim-band--bot { bottom: 0; }
+
+    /* Glowing Windmill Windows (Warm amber lantern glow at night) */
+    .windmill-window {
+      position: absolute;
+      left: 50%;
+      width: 18px;
+      height: 22px;
+      transform: translateX(-50%);
+      border-radius: 9px 9px 2px 2px;
+      border: 2.5px solid #593521;
+      background: #2d4862;
+      overflow: hidden;
+      animation: windowNightGlow var(--day-cycle) linear infinite;
+      animation-delay: var(--day-offset);
+    }
+
+    .windmill-window--upper { top: 20px; }
+    .windmill-window--lower { top: 72px; width: 16px; height: 18px; }
+
+    .windmill-window::before,
+    .windmill-window::after {
+      content: '';
+      position: absolute;
+      background: #593521;
+    }
+    .windmill-window::before {
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 2px;
+      transform: translateX(-50%);
+    }
+    .windmill-window::after {
+      left: 0;
+      right: 0;
+      top: 50%;
+      height: 2px;
+      transform: translateY(-50%);
+    }
+
+    @keyframes windowNightGlow {
+      0%, 100% {
+        background: #ffcf6d;
+        box-shadow: 0 0 18px 4px rgba(255, 198, 86, 0.85);
+      }
+      12%, 40% {
+        background: #6797bf;
+        box-shadow: 0 0 0 0 rgba(255, 198, 86, 0);
+      }
+      50% {
+        background: #ffc966;
+        box-shadow: 0 0 14px 3px rgba(255, 192, 76, 0.72);
+      }
+      58%, 94% {
+        background: #ffd97d;
+        box-shadow: 0 0 22px 6px rgba(255, 202, 92, 0.92);
+      }
+    }
+
+    /* Wooden Balcony Gallery */
+    .windmill-balcony {
+      position: absolute;
+      bottom: 100px;
+      left: 50%;
+      width: 86px;
+      height: 11px;
+      transform: translateX(-50%);
+      border-radius: 3px;
+      background: linear-gradient(180deg, #8b5634 0%, #5c351d 100%);
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25);
+    }
+
+    .windmill-balcony::before {
+      content: '';
+      position: absolute;
+      top: -8px;
+      left: 4px;
+      right: 4px;
+      height: 8px;
+      border-top: 2px solid #754629;
+      background: repeating-linear-gradient(
+        90deg,
+        #754629 0px,
+        #754629 2px,
+        transparent 2px,
+        transparent 9px
+      );
+    }
+
+    /* Conical Shingled Roof Cap */
+    .windmill-cap {
+      position: absolute;
+      bottom: 151px;
+      left: 50%;
+      width: 68px;
+      height: 48px;
+      transform: translateX(-50%);
+      clip-path: polygon(50% 0%, 96% 84%, 100% 100%, 0% 100%, 4% 84%);
+      background:
+        repeating-linear-gradient(
+          0deg,
+          transparent 0px,
+          transparent 7px,
+          rgba(54, 24, 14, 0.22) 7px,
+          rgba(54, 24, 14, 0.22) 8.5px
+        ),
+        linear-gradient(90deg, #683324 0%, #a55237 44%, #823f2a 78%, #522418 100%);
+    }
+
+    .windmill-spire {
+      position: absolute;
+      bottom: 196px;
+      left: 50%;
+      width: 4px;
+      height: 14px;
+      transform: translateX(-50%);
+      border-radius: 99px;
+      background: #4e271a;
+    }
+
+    .windmill-spire::after {
+      content: '';
+      position: absolute;
+      top: -3px;
+      left: 50%;
+      width: 7px;
+      height: 7px;
+      transform: translateX(-50%);
+      border-radius: 50%;
+      background: #ffd479;
+    }
+
+    /* Rotating 4-Blade Rotor */
+    .windmill-rotor {
+      position: absolute;
+      top: 44px;
+      left: 50%;
+      width: 0;
+      height: 0;
+      z-index: 6;
+      animation: windmillSpin 11s linear infinite;
+      will-change: transform;
+    }
+
+    @keyframes windmillSpin {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+
+    .windmill-sail {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .windmill-sail--1 { transform: rotate(0deg); }
+    .windmill-sail--2 { transform: rotate(90deg); }
+    .windmill-sail--3 { transform: rotate(180deg); }
+    .windmill-sail--4 { transform: rotate(270deg); }
+
+    .sail-spar {
+      position: absolute;
+      left: -3px;
+      bottom: 0;
+      width: 6px;
+      height: 112px;
+      border-radius: 3px;
+      background: linear-gradient(90deg, #4a2a18, #78482c, #4a2a18);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.28);
+    }
+
+    .sail-lattice {
+      position: absolute;
+      left: 3px;
+      bottom: 24px;
+      width: 24px;
+      height: 84px;
+      border: 2px solid #6b4128;
+      border-radius: 2px 6px 3px 2px;
+      background:
+        repeating-linear-gradient(
+          0deg,
+          transparent 0px,
+          transparent 12px,
+          rgba(107, 65, 40, 0.72) 12px,
+          rgba(107, 65, 40, 0.72) 14px
+        ),
+        repeating-linear-gradient(
+          90deg,
+          transparent 0px,
+          transparent 10px,
+          rgba(107, 65, 40, 0.55) 10px,
+          rgba(107, 65, 40, 0.55) 11.5px
+        ),
+        linear-gradient(135deg, rgba(255, 251, 240, 0.92), rgba(242, 224, 192, 0.82));
+      box-shadow: 1px 2px 8px rgba(0, 0, 0, 0.16);
+    }
+
+    .windmill-hub {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 16px;
+      height: 16px;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #f5cb78 0%, #8e5633 65%, #4d2a16 100%);
+      border: 2px solid #3c2010;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+      z-index: 8;
+    }
+
+    /* Day/Night Atmospheric Shading over Hills & Windmill */
+    .garden-atmosphere-veil {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 5;
+      animation: gardenShadeCycle var(--day-cycle) linear infinite;
+      animation-delay: var(--day-offset);
+    }
+
+    @keyframes gardenShadeCycle {
+      0%, 100% {
+        background: linear-gradient(180deg, rgba(8, 16, 42, 0.36) 0%, rgba(7, 14, 34, 0.54) 100%);
+      }
+      10% {
+        background: linear-gradient(180deg, rgba(255, 166, 118, 0.16) 0%, rgba(68, 36, 54, 0.18) 100%);
+      }
+      24%, 36% {
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 244, 190, 0.04) 100%);
+      }
+      47% {
+        background: linear-gradient(180deg, rgba(247, 118, 72, 0.22) 0%, rgba(56, 20, 38, 0.24) 100%);
+      }
+      58%, 94% {
+        background: linear-gradient(180deg, rgba(8, 16, 42, 0.4) 0%, rgba(7, 14, 34, 0.56) 100%);
+      }
+    }
+
+    /* ==========================================================================
+       7. FOREGROUND FLOWER GARDEN (SWAYING FLOWERS & GRASS)
+       ========================================================================== */
+    .flowers-meadow {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 28vh;
+      pointer-events: none;
+      z-index: 6;
+    }
+
+    .grass-tuft {
+      position: absolute;
+      bottom: 0;
+      width: 24px;
+      height: 46px;
+      transform-origin: bottom center;
+    }
+
+    .grass-blade {
+      position: absolute;
+      bottom: 0;
+      width: 6px;
+      border-radius: 100% 0 0 0;
+      transform-origin: bottom center;
+      background: linear-gradient(180deg, #7cd15e 0%, #378b3e 65%, #1d5125 100%);
+      animation: breezeSway var(--sway-dur, 3.8s) ease-in-out infinite;
+      animation-delay: var(--sway-delay, 0s);
+    }
+
+    .grass-blade--a { left: 4px; height: 34px; transform: rotate(-10deg); }
+    .grass-blade--b { left: 10px; height: 46px; background: linear-gradient(180deg, #8ee068 0%, #449e46 68%, #1f5a27 100%); }
+    .grass-blade--c { left: 16px; height: 28px; border-radius: 0 100% 0 0; transform: rotate(12deg); }
+
+    /* Base Flower Container */
+    .flower {
+      position: absolute;
+      bottom: 0;
+      width: 36px;
+      height: var(--stem-h, 96px);
+      transform-origin: bottom center;
+      animation: breezeSway var(--sway-dur, 4.2s) ease-in-out infinite;
+      animation-delay: var(--sway-delay, 0s);
+      will-change: transform;
+    }
+
+    @keyframes breezeSway {
+      0%, 100% { transform: scale(var(--f-scale, 1)) rotate(calc(var(--base-tilt, 0deg) - 4.5deg)); }
+      50%      { transform: scale(var(--f-scale, 1)) rotate(calc(var(--base-tilt, 0deg) + 5.5deg)); }
+    }
+
+    .flower-stem {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 4px;
+      height: 100%;
+      transform: translateX(-50%);
+      border-radius: 4px;
+      background: linear-gradient(180deg, #6dc95c 0%, #36873d 65%, #1b5222 100%);
+    }
+
+    .flower-leaf {
+      position: absolute;
+      bottom: 24%;
+      width: 17px;
+      height: 9px;
+      background: linear-gradient(135deg, #74cf5e, #2d7936);
+    }
+
+    .flower-leaf--left {
+      right: 50%;
+      border-radius: 100% 0 100% 0;
+      transform: rotate(-18deg);
+      transform-origin: right center;
+    }
+
+    .flower-leaf--right {
+      left: 50%;
+      bottom: 34%;
+      border-radius: 0 100% 0 100%;
+      transform: rotate(18deg);
+      transform-origin: left center;
+    }
+
+    /* --- Tulip Blossom --- */
+    .tulip-head {
+      position: absolute;
+      top: -22px;
+      left: 50%;
+      width: 28px;
+      height: 30px;
+      transform: translateX(-50%);
+    }
+
+    .tulip-petal {
+      position: absolute;
+      bottom: 0;
+      width: 17px;
+      height: 27px;
+      border-radius: 50% 50% 42% 42%;
+    }
+
+    .tulip-petal--left {
+      left: 0;
+      transform: rotate(-16deg);
+      background: var(--petal-side);
+    }
+
+    .tulip-petal--right {
+      right: 0;
+      transform: rotate(16deg);
+      background: var(--petal-side);
+    }
+
+    .tulip-petal--center {
+      left: 50%;
+      width: 18px;
+      height: 29px;
+      transform: translateX(-50%);
+      background: var(--petal-main);
+      box-shadow: inset 0 -4px 8px rgba(0, 0, 0, 0.14);
+    }
+
+    /* Tulip Color Themes */
+    .flower--tulip-red   { --petal-main: linear-gradient(180deg, #ff7a8a 0%, #e63956 65%, #a81c38 100%); --petal-side: linear-gradient(180deg, #ff5d73 0%, #c82544 100%); }
+    .flower--tulip-gold  { --petal-main: linear-gradient(180deg, #fff099 0%, #ffb732 70%, #d97a16 100%); --petal-side: linear-gradient(180deg, #ffe26b 0%, #eb961e 100%); }
+    .flower--tulip-pink  { --petal-main: linear-gradient(180deg, #ffd1e6 0%, #f472b6 68%, #be387e 100%); --petal-side: linear-gradient(180deg, #ffadd2 0%, #de529b 100%); }
+    .flower--tulip-coral { --petal-main: linear-gradient(180deg, #ffbc9a 0%, #f5684d 68%, #bf3c26 100%); --petal-side: linear-gradient(180deg, #ff9973 0%, #db4e35 100%); }
+
+    /* --- Sunflower Blossom --- */
+    .sunflower-head {
+      position: absolute;
+      top: -24px;
+      left: 50%;
+      width: 44px;
+      height: 44px;
+      transform: translateX(-50%);
+    }
+
+    .sf-petal {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 10px;
+      height: 22px;
+      margin-left: -5px;
+      margin-top: -22px;
+      border-radius: 50% 50% 35% 35%;
+      transform-origin: 50% 22px;
+      background: linear-gradient(180deg, #ffe969 0%, #ffb526 70%, #e07d10 100%);
+      box-shadow: 0 0 4px rgba(255, 200, 60, 0.25);
+    }
+
+    .sf-center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 21px;
+      height: 21px;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      background: radial-gradient(circle at 38% 36%, #7d4724 0%, #4d2610 68%, #2e1508 100%);
+      border: 2px solid #d47918;
+      box-shadow: inset 0 2px 4px rgba(255, 210, 120, 0.25);
+    }
+
+    /* --- Daisy Blossom --- */
+    .daisy-head {
+      position: absolute;
+      top: -18px;
+      left: 50%;
+      width: 34px;
+      height: 34px;
+      transform: translateX(-50%);
+    }
+
+    .daisy-petal {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 8px;
+      height: 16px;
+      margin-left: -4px;
+      margin-top: -16px;
+      border-radius: 50% 50% 40% 40%;
+      transform-origin: 50% 16px;
+      background: linear-gradient(180deg, #ffffff 0%, #fef4e6 75%, #f5dcc4 100%);
+    }
+
+    .flower--daisy-blue .daisy-petal {
+      background: linear-gradient(180deg, #f3f9ff 0%, #bfe2ff 78%, #8bc0f4 100%);
+    }
+
+    .daisy-center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 12px;
+      height: 12px;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #fff08a 0%, #ffbe2e 70%, #d47c12 100%);
+      box-shadow: 0 0 6px rgba(255, 212, 84, 0.55);
+    }
+
+    /* ==========================================================================
+       8. LANDING OVERLAY — TOP TITLE + BOTTOM-CENTER ENTER BUTTON
+       ========================================================================== */
+    .intro-cta-layer {
+      position: fixed;
+      inset: 0;
+      z-index: 68;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: clamp(58px, 10vh, 96px) 20px clamp(26px, 5vh, 48px);
+      text-align: center;
+      pointer-events: none;
+      transition: opacity 420ms var(--ease-out-expo), transform 420ms var(--ease-out-expo);
+    }
+
+    .intro-doors.is-opening .intro-cta-layer {
+      opacity: 0;
+      transform: scale(1.06);
+      pointer-events: none;
+    }
+
+    .intro-brand {
+      pointer-events: auto;
+      padding: 16px 28px;
+      border-radius: 24px;
+      background: rgba(8, 15, 28, 0.32);
+      border: 1px solid rgba(255, 240, 206, 0.16);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 14px 40px rgba(0, 0, 0, 0.22);
+    }
+
+    .intro-kicker {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--accent-gold);
+      text-shadow: 0 2px 12px rgba(4, 10, 22, 0.75);
+      margin-bottom: 6px;
+    }
+
+    .intro-title {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.08;
+      color: #ffffff;
+      text-shadow: 0 6px 28px rgba(4, 10, 22, 0.72);
+    }
+
+    .intro-subtitle {
+      margin-top: 8px;
+      font-size: clamp(0.95rem, 1.9vw, 1.12rem);
+      font-weight: 500;
+      color: rgba(255, 247, 232, 0.92);
+      text-shadow: 0 2px 14px rgba(4, 10, 22, 0.75);
+    }
+
+    .intro-bottom-cta {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      pointer-events: auto;
+    }
+
+    .enter-btn {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 17px 42px;
+      border-radius: 999px;
+      font-size: clamp(1.04rem, 2.2vw, 1.2rem);
+      font-weight: 800;
+      letter-spacing: 0.03em;
+      color: #1a1106;
+      background: linear-gradient(135deg, #fff8e2 0%, #ffd479 48%, #f28e4c 100%);
+      box-shadow:
+        0 0 24px 6px rgba(255, 212, 121, 0.56),
+        0 14px 38px rgba(21, 14, 6, 0.45),
+        inset 0 2px 3px rgba(255, 255, 255, 0.9);
+      animation: enterGlowPulse 2.3s ease-in-out infinite;
+      transition: transform 350ms var(--ease-spring), filter 300ms ease;
+      will-change: transform, box-shadow;
+    }
+
+    .enter-btn::before {
+      content: '';
+      position: absolute;
+      inset: -6px;
+      border-radius: inherit;
+      border: 1.5px solid rgba(255, 228, 168, 0.65);
+      animation: enterRingPulse 2.3s ease-out infinite;
+      pointer-events: none;
+    }
+
+    .enter-btn:hover,
+    .enter-btn:focus-visible {
+      transform: translateY(-3px) scale(1.045);
+      filter: brightness(1.06);
+      outline: none;
+    }
+
+    .enter-btn:active {
+      transform: scale(0.97);
+    }
+
+    .enter-btn-icon {
+      display: inline-flex;
+      transition: transform 300ms var(--ease-out-expo);
+    }
+
+    .enter-btn:hover .enter-btn-icon {
+      transform: translateX(5px);
+    }
+
+    @keyframes enterGlowPulse {
+      0%, 100% {
+        box-shadow:
+          0 0 22px 4px rgba(255, 212, 121, 0.52),
+          0 14px 36px rgba(15, 10, 4, 0.45),
+          inset 0 2px 3px rgba(255, 255, 255, 0.88);
+      }
+      50% {
+        box-shadow:
+          0 0 46px 14px rgba(255, 212, 121, 0.85),
+          0 20px 52px rgba(240, 109, 88, 0.55),
+          inset 0 2px 4px rgba(255, 255, 255, 0.96);
+      }
+    }
+
+    @keyframes enterRingPulse {
+      0%   { transform: scale(1); opacity: 0.78; }
+      100% { transform: scale(1.16, 1.34); opacity: 0; }
+    }
+
+    .intro-hint {
+      display: inline-flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: rgba(255, 248, 236, 0.9);
+      background: rgba(8, 15, 28, 0.46);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    .kbd-key {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      background: rgba(255, 212, 121, 0.18);
+      border: 1px solid rgba(255, 212, 121, 0.42);
+      color: var(--accent-gold);
+    }
+
+    /* ==========================================================================
+       9. MAIN PORTFOLIO BACKDROP — SCROLL-SHIFTING NATURE & SUNRISE GRADIENTS
+       ========================================================================== */
+    .ambient-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+      background:
+        radial-gradient(ellipse 85% 50% at 50% -10%, rgba(52, 155, 99, 0.18), transparent 65%),
+        radial-gradient(ellipse 65% 45% at 88% 20%, rgba(247, 166, 75, 0.14), transparent 60%),
+        linear-gradient(180deg, #050a14 0%, #081320 48%, #0e1922 100%);
+    }
+
+    .backdrop-scroll-phase {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      will-change: opacity;
+      pointer-events: none;
+    }
+
+    .backdrop-scroll-phase--mid {
+      background:
+        radial-gradient(ellipse 80% 55% at 22% 45%, rgba(217, 119, 87, 0.18), transparent 68%),
+        radial-gradient(ellipse 70% 50% at 82% 55%, rgba(247, 166, 75, 0.14), transparent 66%),
+        linear-gradient(180deg, #091322 0%, #141928 50%, #171624 100%);
+    }
+
+    .backdrop-scroll-phase--deep {
+      background:
+        radial-gradient(ellipse 75% 55% at 70% 78%, rgba(240, 109, 88, 0.18), transparent 68%),
+        radial-gradient(ellipse 65% 50% at 18% 82%, rgba(88, 184, 120, 0.14), transparent 66%),
+        linear-gradient(180deg, #08101c 0%, #161522 54%, #1d141b 100%);
+    }
+
+    .ambient-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(82px);
+      will-change: transform;
+      opacity: 0.56;
+    }
+
+    .ambient-orb--1 {
+      width: 560px;
+      height: 560px;
+      top: -150px;
+      right: -120px;
+      background: radial-gradient(circle, rgba(255, 212, 121, 0.25), rgba(240, 109, 88, 0.1), transparent 72%);
+    }
+
+    .ambient-orb--2 {
+      width: 600px;
+      height: 600px;
+      top: 40%;
+      left: -190px;
+      background: radial-gradient(circle, rgba(52, 155, 99, 0.24), rgba(88, 184, 120, 0.08), transparent 72%);
+    }
+
+    .ambient-orb--3 {
+      width: 520px;
+      height: 520px;
+      bottom: -140px;
+      right: 8%;
+      background: radial-gradient(circle, rgba(217, 119, 87, 0.24), rgba(247, 166, 75, 0.1), transparent 72%);
+    }
+
+    /* Main Content Wrapper */
+    .main-wrapper {
+      position: relative;
+      z-index: 10;
+      min-height: 100vh;
+      opacity: 0;
+      transform: scale(0.95);
+      transition: opacity 950ms var(--ease-out-expo) 450ms, transform 950ms var(--ease-out-expo) 450ms;
+      will-change: transform, opacity;
+    }
+
+    body.portfolio-unlocked .main-wrapper {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .main-wrapper.is-bouncing {
+      animation: bounceUp 600ms cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    @keyframes bounceUp {
+      0%   { transform: translateY(0) scale(1); }
+      30%  { transform: translateY(-40px) scale(1); }
+      60%  { transform: translateY(10px) scale(1); }
+      100% { transform: translateY(0) scale(1); }
+    }
+
+    .main-wrapper.is-pulling {
+      transition: none !important;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    @media (min-width: 768px) {
+      .container {
+        padding: 0 32px;
+      }
+    }
+
+    /* ==========================================================================
+       10. STICKY TOP NAVIGATION BAR
+       ========================================================================== */
+    .top-nav {
+      position: sticky;
+      top: 0;
+      z-index: 38;
+      padding: 12px 0;
+      backdrop-filter: blur(18px) saturate(145%);
+      -webkit-backdrop-filter: blur(18px) saturate(145%);
+      background: rgba(5, 10, 20, 0.76);
+      border-bottom: 1px solid rgba(255, 226, 178, 0.09);
+    }
+
+    .top-nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .nav-brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: -0.02em;
+      color: var(--warm-white);
+      flex-shrink: 0;
+    }
+
+    .nav-brand-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-sage), var(--accent-gold));
+      box-shadow: 0 0 12px rgba(88, 184, 120, 0.75);
+    }
+
+    .nav-links {
+      display: none;
+      align-items: center;
+      gap: 4px;
+    }
+
+    @media (min-width: 960px) {
+      .nav-links {
+        display: flex;
+      }
+    }
+
+    .nav-link {
+      padding: 7px 11px;
+      border-radius: 999px;
+      font-size: 0.84rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      white-space: nowrap;
+      transition: color 300ms ease, background-color 300ms ease;
+    }
+
+    .nav-link:hover {
+      color: var(--warm-white);
+      background: rgba(255, 212, 121, 0.1);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 13px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--glass-border);
+      color: var(--text-primary);
+      transition: background-color 300ms ease, border-color 300ms ease, transform 300ms var(--ease-spring);
+    }
+
+    .nav-btn:hover {
+      background: rgba(255, 212, 121, 0.14);
+      border-color: var(--glass-border-hover);
+      transform: translateY(-1px);
+    }
+
+    @media (max-width: 520px) {
+      .nav-btn-label--hide-xs {
+        display: none;
+      }
+    }
+
+    /* ==========================================================================
+       11. PROFILE HERO SECTION
+       ========================================================================== */
+    .profile-hero {
+      padding: 48px 0 32px;
+    }
+
+    @media (min-width: 768px) {
+      .profile-hero {
+        padding: 68px 0 44px;
+      }
+    }
+
+    .parallax-layer {
+      will-change: transform;
+    }
+
+    .hero-card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 28px;
+      padding: 36px 24px;
+      border-radius: 28px;
+      background: linear-gradient(
+        145deg,
+        rgba(14, 28, 42, 0.72) 0%,
+        rgba(10, 18, 30, 0.64) 100%
+      );
+      backdrop-filter: blur(22px) saturate(150%);
+      -webkit-backdrop-filter: blur(22px) saturate(150%);
+      border: 1px solid var(--glass-border);
+      box-shadow:
+        0 24px 64px rgba(0, 0, 0, 0.42),
+        inset 0 1px 0 rgba(255, 232, 198, 0.14);
+      overflow: hidden;
+    }
+
+    .hero-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 12%;
+      right: 12%;
+      height: 1.5px;
+      background: linear-gradient(90deg, transparent, var(--accent-sage), var(--accent-gold), var(--accent-coral), transparent);
+    }
+
+    @media (min-width: 768px) {
+      .hero-card {
+        flex-direction: row;
+        text-align: left;
+        align-items: center;
+        padding: 44px 48px;
+        gap: 40px;
+      }
+    }
+
+    .avatar-wrap {
+      position: relative;
+      flex-shrink: 0;
+      width: 126px;
+      height: 126px;
+    }
+
+    @media (min-width: 768px) {
+      .avatar-wrap {
+        width: 148px;
+        height: 148px;
+      }
+    }
+
+    .avatar-halo {
+      position: absolute;
+      inset: -5px;
+      border-radius: 50%;
+      background: conic-gradient(
+        from 0deg,
+        var(--accent-gold),
+        var(--accent-coral),
+        var(--accent-sage),
+        var(--accent-amber),
+        var(--accent-gold)
+      );
+      animation: haloRotate 10s linear infinite;
+      opacity: 0.92;
+    }
+
+    @keyframes haloRotate {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+
+    .avatar-img-frame {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      padding: 4px;
+      background: var(--bg-navy);
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .avatar-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      display: block;
+      transition: transform 500ms var(--ease-out-expo);
+    }
+
+    .hero-card:hover .avatar-img {
+      transform: scale(1.06);
+    }
+
+    .hero-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .hero-name-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    @media (min-width: 768px) {
+      .hero-name-row {
+        justify-content: flex-start;
+      }
+    }
+
+    .hero-name {
+      font-size: clamp(2rem, 4.2vw, 2.95rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      color: var(--warm-white);
+    }
+
+    .hero-handle {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--accent-gold);
+    }
+
+    .hero-bio {
+      margin-top: 10px;
+      font-size: 1.12rem;
+      font-weight: 400;
+      color: var(--text-secondary);
+    }
+
+    .hero-actions {
+      margin-top: 24px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    @media (min-width: 768px) {
+      .hero-actions {
+        justify-content: flex-start;
+      }
+    }
+
+    .github-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 24px;
+      border-radius: 999px;
+      font-size: 0.94rem;
+      font-weight: 700;
+      color: #190d07;
+      background: linear-gradient(135deg, #fff5dc 0%, #ffd479 52%, #f49056 100%);
+      box-shadow: 0 10px 26px rgba(240, 109, 88, 0.3);
+      transition: transform 350ms var(--ease-spring), box-shadow 350ms ease, filter 300ms ease;
+    }
+
+    .github-cta:hover {
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 14px 34px rgba(247, 166, 75, 0.44);
+      filter: brightness(1.05);
+    }
+
+    .telegram-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 11px 20px;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--warm-white);
+      background: rgba(42, 171, 238, 0.14);
+      border: 1px solid rgba(42, 171, 238, 0.34);
+      transition: transform 350ms var(--ease-spring), background-color 300ms ease, border-color 300ms ease;
+    }
+
+    .telegram-cta:hover {
+      transform: translateY(-2px);
+      background: rgba(42, 171, 238, 0.24);
+      border-color: rgba(110, 206, 255, 0.55);
+    }
+
+    .hero-stat {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      font-size: 0.86rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      background: rgba(88, 184, 120, 0.1);
+      border: 1px solid rgba(88, 184, 120, 0.24);
+    }
+
+    /* ==========================================================================
+       12. ABOUT ME / INTRODUCTION SECTION (SHIMMER BORDER GLASS CARD)
+       ========================================================================== */
+    .about-section {
+      padding: 16px 0 48px;
+    }
+
+    .about-card {
+      position: relative;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 26px;
+      padding: 38px 34px;
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      overflow: hidden;
+      transition: border-color 450ms ease, box-shadow 450ms ease;
+    }
+
+    .about-card:hover {
+      border-color: var(--glass-border-hover);
+      box-shadow: 0 12px 48px rgba(88, 184, 120, 0.08), 0 0 0 1px rgba(255, 212, 121, 0.08);
+    }
+
+    /* Animated gradient shimmer border on top */
+    .about-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        var(--accent-sage) 18%,
+        var(--accent-gold) 45%,
+        var(--accent-coral) 72%,
+        var(--accent-sage) 88%,
+        transparent 100%
+      );
+      background-size: 200% 100%;
+      animation: aboutShimmer 4.5s ease-in-out infinite;
+    }
+
+    @keyframes aboutShimmer {
+      0%, 100% { background-position: 200% 0; }
+      50%      { background-position: -200% 0; }
+    }
+
+    .about-card::after {
+      content: '';
+      position: absolute;
+      top: -35%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 72%;
+      height: 50%;
+      background: radial-gradient(ellipse, rgba(88, 184, 120, 0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .about-card > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .about-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .about-header-icon {
+      font-size: 24px;
+      line-height: 1;
+    }
+
+    .about-header h2 {
+      font-size: 1.38rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+    }
+
+    .about-header-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, var(--glass-border-hover) 0%, transparent 100%);
+      margin-left: 12px;
+    }
+
+    .about-content {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 32px;
+      align-items: start;
+    }
+
+    @media (max-width: 780px) {
+      .about-content {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+      .about-card {
+        padding: 28px 22px;
+      }
+    }
+
+    .about-bio {
+      font-size: 0.98rem;
+      line-height: 1.74;
+      color: var(--text-secondary);
+    }
+
+    .about-bio p {
+      margin-bottom: 14px;
+    }
+
+    .about-bio p:last-of-type {
+      margin-bottom: 0;
+    }
+
+    .about-skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 20px;
+    }
+
+    .about-skill-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 6px 13px;
+      background: rgba(255, 212, 121, 0.07);
+      border: 1px solid rgba(255, 212, 121, 0.16);
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--accent-gold);
+      transition: background 300ms ease, border-color 300ms ease, transform 300ms var(--ease-spring);
+    }
+
+    .about-skill-tag:hover {
+      background: rgba(255, 212, 121, 0.15);
+      border-color: rgba(255, 212, 121, 0.34);
+      transform: translateY(-2px);
+    }
+
+    .about-links-column {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .about-links-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      margin-bottom: 2px;
+    }
+
+    .about-link-btn {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 18px;
+      background: rgba(255, 255, 255, 0.035);
+      border: 1px solid rgba(255, 228, 192, 0.1);
+      border-radius: 15px;
+      color: var(--text-primary);
+      font-size: 0.92rem;
+      font-weight: 500;
+      transition: all 350ms var(--ease-out-expo);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .about-link-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(88, 184, 120, 0.09), rgba(247, 166, 75, 0.08));
+      opacity: 0;
+      transition: opacity 350ms ease;
+    }
+
+    .about-link-btn:hover {
+      border-color: rgba(255, 212, 121, 0.32);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 26px rgba(0, 0, 0, 0.25);
+    }
+
+    .about-link-btn:hover::before {
+      opacity: 1;
+    }
+
+    .about-link-icon {
+      flex-shrink: 0;
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .about-link-icon--github {
+      background: linear-gradient(135deg, #2b3242 0%, #141923 100%);
+    }
+
+    .about-link-icon--telegram {
+      background: linear-gradient(135deg, #2AABEE 0%, #1b86c7 100%);
+    }
+
+    .about-link-icon svg {
+      width: 22px;
+      height: 22px;
+      fill: #fff;
+    }
+
+    .about-link-text {
+      position: relative;
+      z-index: 1;
+    }
+
+    .about-link-text span {
+      display: block;
+    }
+
+    .about-link-name {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--text-primary);
+    }
+
+    .about-link-handle {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .about-link-arrow {
+      margin-left: auto;
+      position: relative;
+      z-index: 1;
+      color: var(--text-muted);
+      transition: color 300ms ease, transform 300ms var(--ease-spring);
+    }
+
+    .about-link-btn:hover .about-link-arrow {
+      color: var(--accent-gold);
+      transform: translateX(4px);
+    }
+
+    /* ==========================================================================
+       13. CATEGORIES & REPOSITORY GLASS CARDS (3D TILT + PARALLAX + REVEAL)
+       ========================================================================== */
+    .categories-main {
+      padding: 12px 0 88px;
+      display: flex;
+      flex-direction: column;
+      gap: 64px;
+    }
+
+    .category-section {
+      scroll-margin-top: 84px;
+    }
+
+    .category-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 26px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(255, 224, 178, 0.11);
+    }
+
+    .category-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .category-emoji {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      font-size: 1.55rem;
+      background: linear-gradient(145deg, rgba(88, 184, 120, 0.18), rgba(247, 166, 75, 0.14));
+      border: 1px solid rgba(255, 212, 121, 0.22);
+      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.25);
+    }
+
+    .category-title {
+      font-size: clamp(1.35rem, 2.6vw, 1.75rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--warm-white);
+      line-height: 1.25;
+    }
+
+    .category-subtitle {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      margin-top: 3px;
+    }
+
+    .category-count {
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 6px 13px;
+      border-radius: 999px;
+      color: var(--accent-gold);
+      background: rgba(255, 212, 121, 0.08);
+      border: 1px solid rgba(255, 212, 121, 0.2);
+    }
+
+    .repo-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    @media (min-width: 720px) {
+      .repo-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    /* Staggered IntersectionObserver reveal */
+    .reveal-item {
+      opacity: 0;
+      transform: translateY(36px) scale(0.975);
+      transition:
+        opacity 680ms var(--ease-out-expo),
+        transform 680ms var(--ease-out-expo);
+      transition-delay: var(--reveal-delay, 0ms);
+      will-change: opacity, transform;
+    }
+
+    .reveal-item.is-visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    .card-float-shell {
+      height: 100%;
+      animation: cardFloat 6.6s ease-in-out infinite;
+      animation-delay: var(--float-delay, 0s);
+      will-change: transform;
+    }
+
+    .card-float-shell:hover {
+      animation-play-state: paused;
+    }
+
+    @keyframes cardFloat {
+      0%, 100% { transform: translateY(0px); }
+      50%      { transform: translateY(-6px); }
+    }
+
+    .repo-card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+      padding: 26px;
+      border-radius: 22px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(18px) saturate(145%);
+      -webkit-backdrop-filter: blur(18px) saturate(145%);
+      border: 1px solid var(--glass-border);
+      box-shadow:
+        0 18px 44px rgba(0, 0, 0, 0.34),
+        inset 0 1px 0 rgba(255, 234, 204, 0.14);
+      transform-style: preserve-3d;
+      transform: perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1);
+      transition:
+        transform 420ms var(--ease-out-expo),
+        background-color 350ms ease,
+        border-color 350ms ease,
+        box-shadow 400ms ease;
+      overflow: hidden;
+      will-change: transform;
+      --glow-x: 50%;
+      --glow-y: 50%;
+      --glow-opacity: 0;
+    }
+
+    .repo-card::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: inherit;
+      background: radial-gradient(400px circle at var(--glow-x) var(--glow-y),
+        rgba(255, 212, 121, 0.3) 0%,
+        transparent 50%
+      );
+      opacity: var(--glow-opacity);
+      transition: opacity 500ms ease;
+      pointer-events: none;
+      z-index: 0;
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask-composite: exclude;
+      -webkit-mask-composite: xor;
+      padding: 1.5px;
+    }
+
+    .repo-card::after {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: inherit;
+      background: radial-gradient(600px circle at var(--glow-x) var(--glow-y),
+        rgba(255, 212, 121, 0.12) 0%,
+        rgba(247, 166, 75, 0.06) 25%,
+        transparent 60%
+      );
+      opacity: var(--glow-opacity);
+      transition: opacity 500ms ease;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .repo-card:hover::before,
+    .repo-card:hover::after {
+      --glow-opacity: 1;
+    }
+
+    .repo-card.is-tilting {
+      transition:
+        transform 90ms linear,
+        background-color 300ms ease,
+        border-color 300ms ease,
+        box-shadow 300ms ease;
+    }
+
+    .repo-card:hover,
+    .repo-card:focus-visible {
+      background: var(--glass-bg-hover);
+      border-color: var(--glass-border-hover);
+      box-shadow:
+        0 26px 60px rgba(0, 0, 0, 0.48),
+        0 0 36px rgba(247, 166, 75, 0.14),
+        inset 0 1px 0 rgba(255, 238, 212, 0.24);
+      outline: none;
+    }
+
+    .repo-card-glare {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0;
+      background: radial-gradient(
+        circle 260px at var(--glow-x, 50%) var(--glow-y, 50%),
+        rgba(255, 224, 168, 0.22),
+        rgba(247, 166, 75, 0.08) 42%,
+        transparent 74%
+      );
+      transition: opacity 350ms ease;
+    }
+
+    .repo-card:hover .repo-card-glare {
+      opacity: 1;
+    }
+
+    .repo-card-top {
+      position: relative;
+      z-index: 1;
+      transform: translateZ(16px);
+    }
+
+    .repo-meta-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .repo-icon-badge {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      background: rgba(88, 184, 120, 0.12);
+      border: 1px solid rgba(88, 184, 120, 0.28);
+      color: var(--accent-gold);
+    }
+
+    .release-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #ffe9be;
+      background: linear-gradient(135deg, rgba(247, 166, 75, 0.22), rgba(240, 109, 88, 0.22));
+      border: 1px solid rgba(255, 212, 121, 0.34);
+      white-space: nowrap;
+    }
+
+    .release-pill--muted {
+      color: var(--text-muted);
+      background: rgba(255, 255, 255, 0.05);
+      border-color: rgba(255, 255, 255, 0.12);
+    }
+
+    .repo-name {
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--warm-white);
+      word-break: break-word;
+      line-height: 1.35;
+      transition: color 300ms ease;
+    }
+
+    .repo-card:hover .repo-name {
+      color: var(--accent-gold);
+    }
+
+    .repo-desc {
+      margin-top: 10px;
+      font-size: 0.96rem;
+      color: var(--text-secondary);
+      line-height: 1.62;
+    }
+
+    .repo-desc--empty {
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    .repo-features {
+      margin-top: 16px;
+    }
+
+    .repo-features-label {
+      font-size: 0.74rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .feature-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+
+    .feature-tag {
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-size: 0.79rem;
+      font-weight: 500;
+      color: rgba(253, 248, 242, 0.88);
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 228, 192, 0.11);
+      transition: border-color 300ms ease, background-color 300ms ease;
+    }
+
+    .repo-card:hover .feature-tag {
+      border-color: rgba(255, 212, 121, 0.24);
+      background: rgba(255, 212, 121, 0.09);
+    }
+
+    .repo-card-footer {
+      position: relative;
+      z-index: 1;
+      margin-top: 22px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255, 228, 192, 0.09);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--accent-amber);
+      transform: translateZ(14px);
+    }
+
+    .repo-arrow {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(255, 212, 121, 0.1);
+      transition: transform 350ms var(--ease-spring), background-color 300ms ease;
+    }
+
+    .repo-card:hover .repo-arrow {
+      transform: translate(3px, -3px);
+      background: rgba(255, 212, 121, 0.22);
+    }
+
+    /* ==========================================================================
+       14. FOOTER
+       ========================================================================== */
+    .site-footer {
+      position: relative;
+      border-top: 1px solid rgba(255, 228, 192, 0.1);
+      padding: 40px 0 56px;
+      background: linear-gradient(180deg, transparent, rgba(5, 10, 20, 0.8));
+    }
+
+    .footer-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      text-align: center;
+    }
+
+    @media (min-width: 720px) {
+      .footer-inner {
+        flex-direction: row;
+        text-align: left;
+      }
+    }
+
+    .footer-credits {
+      font-size: 0.94rem;
+      font-weight: 600;
+      color: var(--warm-white);
+    }
+
+    .footer-sub {
+      margin-top: 4px;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .footer-links {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .footer-pill-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 18px;
+      border-radius: 999px;
+      font-size: 0.86rem;
+      font-weight: 600;
+      color: var(--warm-white);
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--glass-border);
+      transition: transform 300ms var(--ease-spring), border-color 300ms ease, background-color 300ms ease;
+    }
+
+    .footer-pill-btn:hover {
+      transform: translateY(-2px);
+      background: rgba(255, 212, 121, 0.14);
+      border-color: var(--glass-border-hover);
+    }
+
+    /* ==========================================================================
+       15. ENHANCED CUSTOM CURSOR WITH TRAIL EFFECT
+       ========================================================================== */
+    .cursor-dot {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 12px;
+      height: 12px;
+      background: var(--accent-gold, #ffd479);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 99999;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 12px rgba(255, 212, 121, 0.72), 0 0 26px rgba(247, 166, 75, 0.42);
+      transition: width 300ms ease, height 300ms ease, background 300ms ease, opacity 250ms ease;
+      mix-blend-mode: screen;
+      opacity: 0;
+    }
+
+    .cursor-ring {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 34px;
+      height: 34px;
+      border: 1.5px solid rgba(255, 212, 121, 0.38);
+      background: rgba(255, 212, 121, 0.04);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 99998;
+      transform: translate(-50%, -50%);
+      transition: width 400ms cubic-bezier(0.34, 1.56, 0.64, 1), height 400ms cubic-bezier(0.34, 1.56, 0.64, 1), border-color 300ms ease, background 300ms ease, opacity 250ms ease;
+      opacity: 0;
+    }
+
+    body.cursor-visible .cursor-dot,
+    body.cursor-visible .cursor-ring {
+      opacity: 1;
+    }
+
+    body.cursor-hover .cursor-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--accent-coral, #f06d58);
+      box-shadow: 0 0 14px rgba(240, 109, 88, 0.75), 0 0 24px rgba(255, 212, 121, 0.4);
+    }
+
+    body.cursor-hover .cursor-ring {
+      width: 52px;
+      height: 52px;
+      border-color: rgba(240, 109, 88, 0.55);
+      background: rgba(240, 109, 88, 0.06);
+    }
+
+    @media (hover: none) {
+      .cursor-dot,
+      .cursor-ring {
+        display: none !important;
+      }
+      body,
+      a,
+      button,
+      [role="button"] {
+        cursor: auto !important;
+      }
+    }
+
+    /* Mobile Adjustments */
+    @media (max-width: 600px) {
+      .enter-btn {
+        padding: 15px 34px;
+      }
+      .repo-card {
+        padding: 22px;
+      }
+      .intro-brand {
+        padding: 14px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Custom Cursor & Trail Ring -->
+  <div id="cursor-dot" class="cursor-dot" aria-hidden="true"></div>
+  <div id="cursor-ring" class="cursor-ring" aria-hidden="true"></div>
+
+  <!-- Wind Particle Effect Canvas (Active on Both Landing & Main Content) -->
+  <canvas id="wind-canvas" aria-hidden="true"></canvas>
+
+  <!-- Scroll Momentum Progress Bar -->
+  <div class="scroll-progress-track" aria-hidden="true">
+    <div id="scroll-progress-fill" class="scroll-progress-fill"></div>
+  </div>
+
+  <!-- ========================================================================
+       LANDING SCREEN — FLOWER GARDEN, WINDMILL, DAY/NIGHT CYCLE & DOUBLE DOORS
+       ======================================================================== -->
+  <div id="intro-doors" class="intro-doors" role="region" aria-label="Welcome flower garden gate">
+    <!-- Top-Right Language Switcher (Landing Page) -->
+    <div class="lang-switcher lang-switcher--landing" role="group" aria-label="Language switcher">
+      <button class="lang-pill is-active" type="button" data-lang="en">EN</button>
+      <button class="lang-pill" type="button" data-lang="vi">VI</button>
+      <button class="lang-pill" type="button" data-lang="ru">RU</button>
+    </div>
+
+    <!-- Dramatic Center Light Flood & God Rays Behind Opening Doors -->
+    <div class="door-light-portal" aria-hidden="true">
+      <div class="god-rays-primary"></div>
+      <div class="god-rays-secondary"></div>
+      <div class="portal-vertical-beam"></div>
+    </div>
+
+    <!-- Split Door Left & Right -->
+    <div id="door-left" class="door-panel door-left">
+      <div id="door-left-viewport" class="door-scene-viewport"></div>
+    </div>
+    <div id="door-right" class="door-panel door-right">
+      <div id="door-right-viewport" class="door-scene-viewport"></div>
+    </div>
+
+    <div class="door-center-seam" aria-hidden="true"></div>
+
+    <!-- Intro Brand (Top) & Enter Button (Bottom Center) -->
+    <div class="intro-cta-layer">
+      <div class="intro-brand">
+        <p class="intro-kicker" data-i18n="introKicker">andrewtuff · Portfolio</p>
+        <h2 class="intro-title" data-i18n="introTitle">Do Trong Hoa</h2>
+        <p class="intro-subtitle" data-i18n="introSubtitle">Newbie Samsung module creator</p>
+      </div>
+
+      <div class="intro-bottom-cta">
+        <button id="enter-btn" class="enter-btn" type="button">
+          <span data-i18n="enterBtn">Enter</span>
+          <span class="enter-btn-icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14"></path>
+              <path d="m12 5 7 7-7 7"></path>
+            </svg>
+          </span>
+        </button>
+
+        <p class="intro-hint">
+          <span class="kbd-key">↵ Enter</span>
+          <span data-i18n="enterHint">Press Enter or tap the button to open the gate</span>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- CSS Art Flower Garden + Windmill Scene Template (Populated & Cloned Synchronously) -->
+  <template id="garden-template">
+    <div class="garden-stage">
+      <!-- Sky Layers -->
+      <div class="sky-layer sky-dawn"></div>
+      <div class="sky-layer sky-day"></div>
+      <div class="sky-layer sky-sunset"></div>
+
+      <!-- Stars (Generated in JS before cloning) -->
+      <div class="stars-layer"></div>
+
+      <!-- Sun Orbit -->
+      <div class="sun-orbit-item">
+        <div class="sun-halo"></div>
+        <div class="sun-disc"></div>
+      </div>
+
+      <!-- Moon Orbit -->
+      <div class="moon-orbit-item">
+        <div class="moon-halo"></div>
+        <div class="moon-disc">
+          <span class="moon-crater moon-crater--1"></span>
+          <span class="moon-crater moon-crater--2"></span>
+          <span class="moon-crater moon-crater--3"></span>
+        </div>
+      </div>
+
+      <!-- Drifting Clouds -->
+      <div class="clouds-layer">
+        <div class="cloud cloud--1"></div>
+        <div class="cloud cloud--2"></div>
+        <div class="cloud cloud--3"></div>
+        <div class="cloud cloud--4"></div>
+        <div class="cloud cloud--5"></div>
+      </div>
+
+      <div class="horizon-glow"></div>
+
+      <!-- Rolling Green Hills + Detailed Windmill -->
+      <div class="garden-hills">
+        <div class="hill hill--far-left"></div>
+        <div class="hill hill--far-right"></div>
+
+        <div class="hill hill--mid-left"></div>
+        <div class="hill hill--mid-right"></div>
+
+        <!-- CSS Art Windmill (Positioned slightly left of center on the midground hill) -->
+        <div class="windmill">
+          <div class="windmill-ground-shadow"></div>
+          <div class="windmill-spire"></div>
+          <div class="windmill-cap"></div>
+
+          <div class="windmill-tower">
+            <div class="windmill-trim-band windmill-trim-band--top"></div>
+            <div class="windmill-window windmill-window--upper"></div>
+            <div class="windmill-trim-band windmill-trim-band--mid"></div>
+            <div class="windmill-window windmill-window--lower"></div>
+            <div class="windmill-trim-band windmill-trim-band--bot"></div>
+          </div>
+
+          <div class="windmill-balcony"></div>
+
+          <div class="windmill-base">
+            <div class="windmill-door"></div>
+          </div>
+
+          <!-- 4 Rotating Lattice Blades -->
+          <div class="windmill-rotor">
+            <div class="windmill-sail windmill-sail--1">
+              <div class="sail-spar"></div>
+              <div class="sail-lattice"></div>
+            </div>
+            <div class="windmill-sail windmill-sail--2">
+              <div class="sail-spar"></div>
+              <div class="sail-lattice"></div>
+            </div>
+            <div class="windmill-sail windmill-sail--3">
+              <div class="sail-spar"></div>
+              <div class="sail-lattice"></div>
+            </div>
+            <div class="windmill-sail windmill-sail--4">
+              <div class="sail-spar"></div>
+              <div class="sail-lattice"></div>
+            </div>
+            <div class="windmill-hub"></div>
+          </div>
+        </div>
+
+        <div class="hill hill--fore"></div>
+        <div class="meadow-ground-strip"></div>
+      </div>
+
+      <!-- Atmospheric Day/Night Lighting Overlay -->
+      <div class="garden-atmosphere-veil"></div>
+
+      <!-- Foreground Swaying Flowers & Grass (24 Flowers + 28 Grass Tufts populated before clone) -->
+      <div class="flowers-meadow"></div>
+    </div>
+  </template>
+
+  <script>
+    /* Build Stars, 24 Flowers & Grass into #garden-template and clone identically into both door halves */
+    (function buildAndMountGardenDoors() {
+      var tpl = document.getElementById('garden-template');
+      var left = document.getElementById('door-left-viewport');
+      var right = document.getElementById('door-right-viewport');
+      if (!tpl || !left || !right) return;
+
+      var doc = tpl.content;
+      var starsContainer = doc.querySelector('.stars-layer');
+      var meadow = doc.querySelector('.flowers-meadow');
+
+      /* 1. Generate 40 Stars */
+      for (var s = 0; s < 40; s++) {
+        var star = document.createElement('span');
+        star.className = 'star';
+        var size = (1.4 + ((s * 37) % 18) / 10).toFixed(1);
+        var topPct = (4 + ((s * 53) % 52)).toFixed(1);
+        var leftPct = (2 + ((s * 73) % 96)).toFixed(1);
+        var delay = (((s * 19) % 34) / 10).toFixed(1);
+        star.style.cssText = 'top:' + topPct + '%;left:' + leftPct + '%;width:' + size + 'px;height:' + size + 'px;animation-delay:' + delay + 's;';
+        starsContainer.appendChild(star);
+      }
+
+      /* 2. Generate 28 Swaying Grass Tufts */
+      for (var g = 0; g < 28; g++) {
+        var tuft = document.createElement('div');
+        tuft.className = 'grass-tuft';
+        var gx = (1.5 + g * 3.55 + ((g % 3) * 0.4)).toFixed(2);
+        var gb = ((g % 4) * 1.4).toFixed(1);
+        var gScale = (0.75 + ((g * 7) % 5) * 0.1).toFixed(2);
+        tuft.style.cssText = 'left:' + gx + '%;bottom:' + gb + 'vh;transform:scale(' + gScale + ');';
+
+        ['a', 'b', 'c'].forEach(function (bladeId, idx) {
+          var blade = document.createElement('span');
+          blade.className = 'grass-blade grass-blade--' + bladeId;
+          var dur = (3.1 + ((g + idx) % 5) * 0.35).toFixed(2) + 's';
+          var dly = (-((g * 0.4 + idx * 0.7) % 3.5)).toFixed(2) + 's';
+          blade.style.setProperty('--sway-dur', dur);
+          blade.style.setProperty('--sway-delay', dly);
+          tuft.appendChild(blade);
+        });
+        meadow.appendChild(tuft);
+      }
+
+      /* 3. Generate 24 Colorful Flowers (Tulips, Sunflowers, Daisies) across bottom */
+      var flowerSpecs = [
+        { type: 'tulip-red',   x: 2.8,  b: 1.5, h: 92,  s: 0.92, tilt: -4 },
+        { type: 'daisy',       x: 6.5,  b: 4.5, h: 74,  s: 0.85, tilt: 3  },
+        { type: 'sunflower',   x: 10.4, b: 1.2, h: 122, s: 1.02, tilt: -2 },
+        { type: 'tulip-gold',  x: 14.2, b: 5.8, h: 82,  s: 0.82, tilt: 4  },
+        { type: 'daisy-blue',  x: 17.8, b: 1.8, h: 78,  s: 0.94, tilt: -3 },
+        { type: 'tulip-pink',  x: 21.6, b: 4.2, h: 88,  s: 0.88, tilt: 2  },
+        { type: 'sunflower',   x: 25.4, b: 0.8, h: 118, s: 1.0,  tilt: -4 },
+        { type: 'daisy',       x: 29.2, b: 5.2, h: 70,  s: 0.82, tilt: 3  },
+        { type: 'tulip-coral', x: 33.4, b: 1.4, h: 90,  s: 0.92, tilt: -2 },
+        { type: 'daisy-blue',  x: 37.8, b: 4.6, h: 72,  s: 0.80, tilt: 2  },
+        { type: 'tulip-gold',  x: 42.5, b: 0.6, h: 78,  s: 0.82, tilt: -3 },
+        { type: 'daisy',       x: 47.4, b: 1.0, h: 66,  s: 0.78, tilt: 1  },
+        { type: 'tulip-pink',  x: 52.8, b: 0.8, h: 72,  s: 0.80, tilt: -2 },
+        { type: 'daisy-blue',  x: 57.6, b: 1.6, h: 78,  s: 0.85, tilt: 3  },
+        { type: 'sunflower',   x: 62.0, b: 3.8, h: 112, s: 0.94, tilt: -3 },
+        { type: 'tulip-red',   x: 66.2, b: 1.2, h: 94,  s: 0.96, tilt: 2  },
+        { type: 'daisy',       x: 70.4, b: 5.0, h: 74,  s: 0.84, tilt: -4 },
+        { type: 'tulip-coral', x: 74.5, b: 1.8, h: 96,  s: 0.98, tilt: 3  },
+        { type: 'sunflower',   x: 78.8, b: 4.4, h: 120, s: 0.96, tilt: -2 },
+        { type: 'daisy-blue',  x: 82.6, b: 1.0, h: 80,  s: 0.92, tilt: 4  },
+        { type: 'tulip-gold',  x: 86.5, b: 4.8, h: 86,  s: 0.88, tilt: -3 },
+        { type: 'sunflower',   x: 90.4, b: 1.4, h: 124, s: 1.02, tilt: 2  },
+        { type: 'tulip-pink',  x: 94.2, b: 4.2, h: 84,  s: 0.86, tilt: -4 },
+        { type: 'daisy',       x: 97.4, b: 1.6, h: 76,  s: 0.90, tilt: 3  }
+      ];
+
+      flowerSpecs.forEach(function (spec, idx) {
+        var el = document.createElement('div');
+        var isTulip = spec.type.indexOf('tulip') === 0;
+        var isSunflower = spec.type === 'sunflower';
+
+        el.className = 'flower flower--' + spec.type;
+        el.style.left = spec.x + '%';
+        el.style.bottom = spec.b + 'vh';
+        el.style.zIndex = spec.b < 3 ? '3' : '1';
+        el.style.setProperty('--stem-h', spec.h + 'px');
+        el.style.setProperty('--f-scale', spec.s);
+        el.style.setProperty('--base-tilt', spec.tilt + 'deg');
+        el.style.setProperty('--sway-dur', (3.3 + (idx % 6) * 0.36).toFixed(2) + 's');
+        el.style.setProperty('--sway-delay', (-((idx * 0.45) % 3.8)).toFixed(2) + 's');
+
+        var stem = document.createElement('div');
+        stem.className = 'flower-stem';
+        el.appendChild(stem);
+
+        var leafL = document.createElement('div');
+        leafL.className = 'flower-leaf flower-leaf--left';
+        el.appendChild(leafL);
+
+        var leafR = document.createElement('div');
+        leafR.className = 'flower-leaf flower-leaf--right';
+        el.appendChild(leafR);
+
+        if (isTulip) {
+          var th = document.createElement('div');
+          th.className = 'tulip-head';
+          th.innerHTML = '<span class="tulip-petal tulip-petal--left"></span><span class="tulip-petal tulip-petal--right"></span><span class="tulip-petal tulip-petal--center"></span>';
+          el.appendChild(th);
+        } else if (isSunflower) {
+          var sf = document.createElement('div');
+          sf.className = 'sunflower-head';
+          for (var p = 0; p < 10; p++) {
+            var sp = document.createElement('span');
+            sp.className = 'sf-petal';
+            sp.style.transform = 'rotate(' + (p * 36) + 'deg)';
+            sf.appendChild(sp);
+          }
+          var sc = document.createElement('span');
+          sc.className = 'sf-center';
+          sf.appendChild(sc);
+          el.appendChild(sf);
+        } else {
+          var dh = document.createElement('div');
+          dh.className = 'daisy-head';
+          for (var dp = 0; dp < 8; dp++) {
+            var petal = document.createElement('span');
+            petal.className = 'daisy-petal';
+            petal.style.transform = 'rotate(' + (dp * 45) + 'deg)';
+            dh.appendChild(petal);
+          }
+          var dc = document.createElement('span');
+          dc.className = 'daisy-center';
+          dh.appendChild(dc);
+          el.appendChild(dh);
+        }
+
+        meadow.appendChild(el);
+      });
+
+      /* 4. Clone identically into Left & Right Door Panels */
+      left.appendChild(tpl.content.cloneNode(true));
+      right.appendChild(tpl.content.cloneNode(true));
+    })();
+  </script>
+
+  <!-- ========================================================================
+       MAIN CONTENT AMBIENT BACKDROP (SCROLL COLOR SHIFT + PARALLAX ORBS)
+       ======================================================================== -->
+  <div class="ambient-backdrop" aria-hidden="true">
+    <div id="backdrop-mid" class="backdrop-scroll-phase backdrop-scroll-phase--mid"></div>
+    <div id="backdrop-deep" class="backdrop-scroll-phase backdrop-scroll-phase--deep"></div>
+    <div id="orb-1" class="ambient-orb ambient-orb--1"></div>
+    <div id="orb-2" class="ambient-orb ambient-orb--2"></div>
+    <div id="orb-3" class="ambient-orb ambient-orb--3"></div>
+  </div>
+
+  <!-- ========================================================================
+       MAIN PORTFOLIO CONTENT
+       ======================================================================== -->
+  <div id="main-wrapper" class="main-wrapper">
+    <nav class="top-nav" aria-label="Primary navigation">
+      <div class="container top-nav-inner">
+        <a href="#top" class="nav-brand">
+          <span class="nav-brand-dot" aria-hidden="true"></span>
+          <span>andrewtuff</span>
+        </a>
+
+        <div class="nav-links">
+          <a href="#cat-galaxy-ai" class="nav-link" data-i18n="navGalaxyAI">🤖 Galaxy AI</a>
+          <a href="#cat-feature-ports" class="nav-link" data-i18n="navFeaturePorts">📱 Feature Ports</a>
+          <a href="#cat-customization" class="nav-link" data-i18n="navCustomization">🎨 Customization</a>
+          <a href="#cat-utilities" class="nav-link" data-i18n="navUtilities">🔧 Utilities</a>
+        </div>
+
+        <div class="nav-actions">
+          <div class="lang-switcher lang-switcher--nav" role="group" aria-label="Language switcher">
+            <button class="lang-pill is-active" type="button" data-lang="en">EN</button>
+            <button class="lang-pill" type="button" data-lang="vi">VI</button>
+            <button class="lang-pill" type="button" data-lang="ru">RU</button>
+          </div>
+
+          <button id="replay-sunrise-btn" class="nav-btn" type="button" title="Replay intro scene">
+            <span aria-hidden="true">🌷</span>
+            <span class="nav-btn-label--hide-xs" data-i18n="replaySunrise">Replay</span>
+          </button>
+
+          <a class="nav-btn" href="https://github.com/andrewtuff" target="_blank" rel="noopener noreferrer">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.57.1.78-.25.78-.55v-2.14c-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.76 2.7 1.25 3.36.96.1-.75.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.25.45-2.28 1.19-3.08-.12-.29-.52-1.46.11-3.04 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.78 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.23 2.75.11 3.04.74.8 1.19 1.83 1.19 3.08 0 4.41-2.69 5.39-5.25 5.67.41.36.78 1.06.78 2.14v3.17c0 .31.21.66.79.55A11.51 11.51 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"></path>
+            </svg>
+            <span class="nav-btn-label--hide-xs">GitHub</span>
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Profile Hero Header -->
+    <header id="top" class="profile-hero">
+      <div class="container">
+        <div class="parallax-layer" data-parallax="0.04">
+          <div class="hero-card reveal-item">
+            <div class="avatar-wrap">
+              <div class="avatar-halo" aria-hidden="true"></div>
+              <div class="avatar-img-frame">
+                <img
+                  class="avatar-img"
+                  src="https://avatars.githubusercontent.com/u/88602040?v=4"
+                  alt="Do Trong Hoa (andrewtuff) avatar"
+                  width="148"
+                  height="148"
+                  onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 148 148%22><rect width=%22148%22 height=%22148%22 fill=%22%230c1f1c%22/><text x=%2250%%22 y=%2255%%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22Inter,sans-serif%22 font-size=%2246%22 font-weight=%22700%22 fill=%22%23ffd479%22>AT</text></svg>'"
+                />
+              </div>
+            </div>
+
+            <div class="hero-info">
+              <div class="hero-name-row">
+                <h1 class="hero-name" data-i18n="introTitle">Do Trong Hoa</h1>
+                <span class="hero-handle">@andrewtuff</span>
+              </div>
+              <p class="hero-bio" data-i18n="introSubtitle">Newbie Samsung module creator</p>
+
+              <div class="hero-actions">
+                <a class="github-cta" href="https://github.com/andrewtuff" target="_blank" rel="noopener noreferrer">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.57.1.78-.25.78-.55v-2.14c-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.76 2.7 1.25 3.36.96.1-.75.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.25.45-2.28 1.19-3.08-.12-.29-.52-1.46.11-3.04 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.78 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.23 2.75.11 3.04.74.8 1.19 1.83 1.19 3.08 0 4.41-2.69 5.39-5.25 5.67.41.36.78 1.06.78 2.14v3.17c0 .31.21.66.79.55A11.51 11.51 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"></path>
+                  </svg>
+                  <span>GitHub @andrewtuff</span>
+                </a>
+
+                <a class="telegram-cta" href="https://t.me/andrewtuff" target="_blank" rel="noopener noreferrer">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"></path>
+                  </svg>
+                  <span>Telegram @andrewtuff</span>
+                </a>
+
+                <span class="hero-stat">📦 <span data-i18n="repoCount">6 Repositories</span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- About Me / Introduction Section -->
+    <section class="about-section container" aria-labelledby="about-heading">
+      <div class="parallax-layer" data-parallax="-0.025">
+        <div class="about-card reveal-item">
+          <div class="about-header">
+            <span class="about-header-icon" aria-hidden="true">👋</span>
+            <h2 id="about-heading" data-i18n="aboutTitle">About Me</h2>
+            <div class="about-header-line" aria-hidden="true"></div>
+          </div>
+
+          <div class="about-content">
+            <div class="about-bio">
+              <p data-i18n="aboutP1">Hi there! I'm Do Trong Hoa, a Samsung Galaxy customization enthusiast and module developer.</p>
+              <p data-i18n="aboutP2">🔧 I specialize in creating modules that bring flagship Samsung features like Galaxy AI, Now Brief, and AOD to budget Samsung devices running MediaTek and Exynos chipsets.</p>
+              <p data-i18n="aboutP3">🌱 Although I'm a newbie, I always strive to deliver the best experience for the Samsung community. All projects are developed with Claude AI support and a passion for the OneUI ecosystem!</p>
+
+              <div class="about-skills">
+                <span class="about-skill-tag">Galaxy AI</span>
+                <span class="about-skill-tag">OneUI Modules</span>
+                <span class="about-skill-tag">KernelSU</span>
+                <span class="about-skill-tag">LSPosed</span>
+                <span class="about-skill-tag">Samsung Mods</span>
+                <span class="about-skill-tag">Kotlin</span>
+              </div>
+            </div>
+
+            <div class="about-links-column">
+              <span class="about-links-label" data-i18n="contactLabel">Contact &amp; Social</span>
+
+              <a class="about-link-btn" href="https://github.com/andrewtuff" target="_blank" rel="noopener noreferrer">
+                <div class="about-link-icon about-link-icon--github">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.57.1.78-.25.78-.55v-2.14c-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.76 2.7 1.25 3.36.96.1-.75.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.25.45-2.28 1.19-3.08-.12-.29-.52-1.46.11-3.04 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.78 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.23 2.75.11 3.04.74.8 1.19 1.83 1.19 3.08 0 4.41-2.69 5.39-5.25 5.67.41.36.78 1.06.78 2.14v3.17c0 .31.21.66.79.55A11.51 11.51 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"></path>
+                  </svg>
+                </div>
+                <div class="about-link-text">
+                  <span class="about-link-name">GitHub</span>
+                  <span class="about-link-handle">@andrewtuff</span>
+                </div>
+                <svg class="about-link-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="m9 18 6-6-6-6"></path>
+                </svg>
+              </a>
+
+              <a class="about-link-btn" href="https://t.me/andrewtuff" target="_blank" rel="noopener noreferrer">
+                <div class="about-link-icon about-link-icon--telegram">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"></path>
+                  </svg>
+                </div>
+                <div class="about-link-text">
+                  <span class="about-link-name">Telegram</span>
+                  <span class="about-link-handle">@andrewtuff</span>
+                </div>
+                <svg class="about-link-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="m9 18 6-6-6-6"></path>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Categorized Repositories -->
+    <main class="categories-main container">
+      <!-- Category 1: Galaxy AI Modules -->
+      <section id="cat-galaxy-ai" class="category-section" aria-labelledby="heading-galaxy-ai">
+        <div class="parallax-layer" data-parallax="0.02">
+          <div class="category-header reveal-item">
+            <div class="category-title-wrap">
+              <span class="category-emoji" aria-hidden="true">🤖</span>
+              <div>
+                <h2 id="heading-galaxy-ai" class="category-title" data-i18n="catGalaxyAI">Galaxy AI Modules</h2>
+                <p class="category-subtitle" data-i18n="catGalaxyAIDesc">Bring the full Galaxy AI experience to Samsung MTK &amp; Exynos devices</p>
+              </div>
+            </div>
+            <span class="category-count">2 <span data-i18n="projects">projects</span></span>
+          </div>
+        </div>
+
+        <div class="repo-grid">
+          <!-- Repo 1: GalaxyAI-to-mtk-samsung-devices -->
+          <div class="parallax-layer" data-parallax="-0.018">
+            <div class="reveal-item" style="--reveal-delay: 40ms;">
+              <div class="card-float-shell" style="--float-delay: 0s;">
+                <a
+                  class="repo-card"
+                  href="https://github.com/andrewtuff/GalaxyAI-to-mtk-samsung-devices/releases"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <div class="repo-card-glare" aria-hidden="true"></div>
+                  <div class="repo-card-top">
+                    <div class="repo-meta-row">
+                      <span class="repo-icon-badge" aria-hidden="true">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="M12 3l1.9 4.7L19 9.5l-4.7 1.9L12 16l-2.3-4.6L5 9.5l4.7-1.8L12 3z"></path>
+                          <path d="M19 15l.9 2.1L22 18l-2.1.9L19 21l-.9-2.1L16 18l2.1-.9L19 15z"></path>
+                        </svg>
+                      </span>
+                      <span class="release-pill">🏷️ <span data-i18n="latest">Latest</span>: Update 2.4</span>
+                    </div>
+
+                    <h3 class="repo-name">GalaxyAI-to-mtk-samsung-devices</h3>
+                    <p class="repo-desc">GalaxyAI module For OneUI 9.0</p>
+
+                    <div class="repo-features">
+                      <div class="repo-features-label" data-extra-i18n="featuresLabel">Features</div>
+                      <div class="feature-tags">
+                        <span class="feature-tag">Note Assist</span>
+                        <span class="feature-tag">Transcript Assist</span>
+                        <span class="feature-tag">Browsing Assist</span>
+                        <span class="feature-tag">Photo Assist</span>
+                        <span class="feature-tag">Creative Studio</span>
+                        <span class="feature-tag">Weather Wallpaper</span>
+                        <span class="feature-tag">Now Brief</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="repo-card-footer">
+                    <span data-i18n="viewRelease">View Releases</span>
+                    <span class="repo-arrow" aria-hidden="true">↗</span>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Repo 2: GalaxyAi-for-Exynos -->
+          <div class="parallax-layer" data-parallax="0.022">
+            <div class="reveal-item" style="--reveal-delay: 140ms;">
+              <div class="card-float-shell" style="--float-delay: -1.8s;">
+                <a
+                  class="repo-card"
+                  href="https://github.com/andrewtuff/GalaxyAi-for-Exynos/releases"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <div class="repo-card-glare" aria-hidden="true"></div>
+                  <div class="repo-card-top">
+                    <div class="repo-meta-row">
+                      <span class="repo-icon-badge" aria-hidden="true">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <rect x="4" y="4" width="16" height="16" rx="3"></rect>
+                          <rect x="9" y="9" width="6" height="6"></rect>
+                          <path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 14h3M1 9h3M1 14h3"></path>
+                        </svg>
+                      </span>
+                      <span class="release-pill">🏷️ <span data-i18n="latest">Latest</span>: Test Only</span>
+                    </div>
+
+                    <h3 class="repo-name">GalaxyAi-for-Exynos</h3>
+                    <p class="repo-desc">Now GalaxyAI available on Samsung running Exynos cpu</p>
+                  </div>
+
+                  <div class="repo-card-footer">
+                    <span data-i18n="viewRelease">View Releases</span>
+                    <span class="repo-arrow" aria-hidden="true">↗</span>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Category 2: Samsung Feature Ports -->
+      <section id="cat-feature-ports" class="category-section" aria-labelledby="heading-feature-ports">
+        <div class="parallax-layer" data-parallax="0.02">
+          <div class="category-header reveal-item">
+            <div class="category-title-wrap">
+              <span class="category-emoji" aria-hidden="true">📱</span>
+              <div>
+                <h2 id="heading-feature-ports" class="category-title" data-i18n="catFeaturePorts">Samsung Feature Ports</h2>
+                <p class="category-subtitle" data-i18n="catFeaturePortsDesc">Port flagship features to budget Samsung Galaxy devices</p>
+              </div>
+            </div>
+            <span class="category-count">2 <span data-i18n="projects">projects</span></span>
+          </div>
+        </div>
+
+        <div class="repo-grid">
+          <!-- Repo 3: AOD-on-Samsung-A15-and-other-Samsung -->
+          <div class="parallax-layer" data-parallax="-0.018">
+            <div class="reveal-item" style="--reveal-delay: 40ms;">
+              <div class="card-float-shell" style="--float-delay: -0.9s;">
+                <a
+                  class="repo-card"
+                  href="https://github.com/andrewtuff/AOD-on-Samsung-A15-and-other-Samsung/releases"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <div class="repo-card-glare" aria-hidden="true"></div>
+                  <div class="repo-card-top">
+                    <div class="repo-meta-row">
+                      <span class="repo-icon-badge" aria-hidden="true">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <rect x="6" y="2" width="12" height="20" rx="2.5"></rect>
+                          <circle cx="12" cy="11" r="2.5"></circle>
+                          <path d="M10 18h4"></path>
+                        </svg>
+                      </span>
+                      <span class="release-pill">🏷️ <span data-i18n="latest">Latest</span>: AOD Plugins</span>
+                    </div>
+
+                    <h3 class="repo-name">AOD-on-Samsung-A15-and-other-Samsung</h3>
+                    <p class="repo-desc">AOD on temp root samsung and plugin for GalaxyAI</p>
+                  </div>
+
+                  <div class="repo-card-footer">
+                    <span data-i18n="viewRelease">View Releases</span>
+                    <span class="repo-arrow" aria-hidden="true">↗</span>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Repo 4: Bring-Now-Brief-To-Budget-Samsung -->
+          <div class="parallax-layer" data-parallax="0.022">
+            <div class="reveal-item" style="--reveal-delay: 140ms;">
+              <div class="card-float-shell" style="--float-delay: -2.6s;">
+                <a
+                  class="repo-card"
+                  href="https://github.com/andrewtuff/Bring-Now-Brief-To-Budget-Samsung/releases"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <div class="repo-card-glare" aria-hidden="true"></div>
+                  <div class="repo-card-top">
+                    <div class="repo-meta-row">
+                      <span class="repo-icon-badge" aria-hidden="true">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"></path>
+                        </svg>
+                      </span>
+                      <span class="release-pill">🏷️ <span data-i18n="latest">Latest</span>: 2.3</span>
+                    </div>
+
+                    <h3 class="repo-name">Bring-Now-Brief-To-Budget-Samsung</h3>
+                    <p class="repo-desc">Now Brief on rooted Samsung</p>
+                  </div>
+
+                  <div class="repo-card-footer">
+                    <span data-i18n="viewRelease">View Releases</span>
+                    <span class="repo-arrow" aria-hidden="true">↗</span>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Category 3: Customization Tools -->
+      <section id="cat-customization" class="category-section" aria-labelledby="heading-customization">
+        <div class="parallax-layer" data-parallax="0.02">
+          <div class="category-header reveal-item">
+            <div class="category-title-wrap">
+              <span class="category-emoji" aria-hidden="true">🎨</span>
+              <div>
+                <h2 id="heading-customization" class="category-title" data-i18n="catCustomization">Customization Tools</h2>
+                <p class="category-subtitle" data-i18n="catCustomizationDesc">All-in-one OneUI customization and tuning tools</p>
+              </div>
+            </div>
+            <span class="category-count">1 <span data-i18n="projects">projects</span></span>
+          </div>
+        </div>
+
+        <div class="repo-grid">
+          <!-- Repo 5: OneUI-Designer -->
+          <div class="parallax-layer" data-parallax="-0.015">
+            <div class="reveal-item" style="--reveal-delay: 40ms;">
+              <div class="card-float-shell" style="--float-delay: -1.4s;">
+                <a
+                  class="repo-card"
+                  href="https://github.com/andrewtuff/OneUI-Designer/releases"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <div class="repo-card-glare" aria-hidden="true"></div>
+                  <div class="repo-card-top">
+                    <div class="repo-meta-row">
+                      <span class="repo-icon-badge" aria-hidden="true">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <circle cx="13.5" cy="6.5" r="2.5"></circle>
+                          <circle cx="17.5" cy="10.5" r="2.5"></circle>
+                          <circle cx="8.5" cy="7.5" r="2.5"></circle>
+                          <circle cx="6.5" cy="12.5" r="2.5"></circle>
+                          <path d="M12 22C6.5 22 2 17.5 2 12S6.5 2 12 2s10 4.5 10 10c0 1.4-1.1 2.5-2.5 2.5H17c-1.1 0-2 .9-2 2 0 .6.2 1.1.6 1.5.4.4.6.9.6 1.5 0 1.4-1.1 2.5-2.5 2.5H12z"></path>
+                        </svg>
+                      </span>
+                      <span class="release-pill">🏷️ <span data-i18n="latest">Latest</span>: OneUI Designer</span>
+                    </div>
+
+                    <h3 class="repo-name">OneUI-Designer</h3>
+                    <p class="repo-desc">Design Your OneUI more customize</p>
+
+                    <div class="repo-features">
+                      <div class="repo-features-label" data-extra-i18n="featuresLabel">Features</div>
+                      <div class="feature-tags">
+                        <span class="feature-tag">About Phone Media Banner</span>
+                        <span class="feature-tag">Battery Studio</span>
+                        <span class="feature-tag">SystemUI Tweaks</span>
+                        <span class="feature-tag">WM Shell Animations</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="repo-card-footer">
+                    <span data-i18n="viewRelease">View Releases</span>
+                    <span class="repo-arrow" aria-hidden="true">↗</span>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Category 4: Utilities -->
+      <section id="cat-utilities" class="category-section" aria-labelledby="heading-utilities">
+        <div class="parallax-layer" data-parallax="0.02">
+          <div class="category-header reveal-item">
+            <div class="category-title-wrap">
+              <span class="category-emoji" aria-hidden="true">🔧</span>
+              <div>
+                <h2 id="heading-utilities" class="category-title" data-i18n="catUtilities">Utilities</h2>
+                <p class="category-subtitle" data-i18n="catUtilitiesDesc">Miscellaneous tools and utilities</p>
+              </div>
+            </div>
+            <span class="category-count">1 <span data-i18n="projects">projects</span></span>
+          </div>
+        </div>
+
+        <div class="repo-grid">
+          <!-- Repo 6: Buff-Warp -->
+          <div class="parallax-layer" data-parallax="-0.015">
+            <div class="reveal-item" style="--reveal-delay: 40ms;">
+              <div class="card-float-shell" style="--float-delay: -2.2s;">
+                <a
+                  class="repo-card"
+                  href="https://github.com/andrewtuff/Buff-Warp"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <div class="repo-card-glare" aria-hidden="true"></div>
+                  <div class="repo-card-top">
+                    <div class="repo-meta-row">
+                      <span class="repo-icon-badge" aria-hidden="true">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+                        </svg>
+                      </span>
+                      <span class="release-pill release-pill--muted" data-extra-i18n="noReleases">No releases</span>
+                    </div>
+
+                    <h3 class="repo-name">Buff-Warp</h3>
+                    <p class="repo-desc repo-desc--empty" data-extra-i18n="noDesc">No description</p>
+                  </div>
+
+                  <div class="repo-card-footer">
+                    <span data-extra-i18n="viewRepo">View Repository</span>
+                    <span class="repo-arrow" aria-hidden="true">↗</span>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <div>
+          <p class="footer-credits" data-i18n="footerMade">Made with ❤️ by Do Trong Hoa</p>
+          <p class="footer-sub" data-i18n="footerPowered">Powered by GitHub Pages</p>
+        </div>
+
+        <div class="footer-links">
+          <a class="footer-pill-btn" href="https://github.com/andrewtuff" target="_blank" rel="noopener noreferrer">
+            <span>GitHub @andrewtuff</span>
+            <span aria-hidden="true">↗</span>
+          </a>
+          <a class="footer-pill-btn" href="https://t.me/andrewtuff" target="_blank" rel="noopener noreferrer">
+            <span>Telegram @andrewtuff</span>
+            <span aria-hidden="true">↗</span>
+          </a>
+          <button id="back-to-top-btn" class="footer-pill-btn" type="button">
+            <span data-i18n="backToTop">Back to top</span>
+            <span aria-hidden="true">↑</span>
+          </button>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- ========================================================================
+       VANILLA JAVASCRIPT — I18N, DOORS, CURSOR, WIND TRAIL, PARALLAX, TILT & BOUNCE
+       ======================================================================== -->
+  <script>
+    (function () {
+      'use strict';
+
+      /* ----------------------------------------------------------------------
+         1. TRANSLATION DICTIONARY (EN / VI / RU) & LANGUAGE SWITCHER
+         ---------------------------------------------------------------------- */
+      const translations = {
+        en: {
+          enterBtn: 'Enter',
+          enterHint: 'Press Enter or tap the button to open the gate',
+          introKicker: 'andrewtuff · Portfolio',
+          introTitle: 'Do Trong Hoa',
+          introSubtitle: 'Newbie Samsung module creator',
+          aboutTitle: 'About Me',
+          aboutP1: "Hi there! I'm Do Trong Hoa, a Samsung Galaxy customization enthusiast and module developer.",
+          aboutP2: '🔧 I specialize in creating modules that bring flagship Samsung features like Galaxy AI, Now Brief, and AOD to budget Samsung devices running MediaTek and Exynos chipsets.',
+          aboutP3: "🌱 Although I'm a newbie, I always strive to deliver the best experience for the Samsung community. All projects are developed with Claude AI support and a passion for the OneUI ecosystem!",
+          contactLabel: 'Contact & Social',
+          repoCount: '6 Repositories',
+          catGalaxyAI: 'Galaxy AI Modules',
+          catGalaxyAIDesc: 'Bring the full Galaxy AI experience to Samsung MTK & Exynos devices',
+          catFeaturePorts: 'Samsung Feature Ports',
+          catFeaturePortsDesc: 'Port flagship features to budget Samsung Galaxy devices',
+          catCustomization: 'Customization Tools',
+          catCustomizationDesc: 'All-in-one OneUI customization and tuning tools',
+          catUtilities: 'Utilities',
+          catUtilitiesDesc: 'Miscellaneous tools and utilities',
+          projects: 'projects',
+          viewRelease: 'View Releases',
+          latest: 'Latest',
+          footerMade: 'Made with ❤️ by Do Trong Hoa',
+          footerPowered: 'Powered by GitHub Pages',
+          backToTop: 'Back to top',
+          replaySunrise: 'Replay',
+          navGalaxyAI: '🤖 Galaxy AI',
+          navFeaturePorts: '📱 Feature Ports',
+          navCustomization: '🎨 Customization',
+          navUtilities: '🔧 Utilities'
+        },
+        vi: {
+          enterBtn: 'Truy Cập Ngay',
+          enterHint: 'Nhấn Enter hoặc chạm nút để mở cổng',
+          introKicker: 'andrewtuff · Portfolio',
+          introTitle: 'Do Trong Hoa',
+          introSubtitle: 'Nhà phát triển module Samsung',
+          aboutTitle: 'Giới Thiệu Bản Thân',
+          aboutP1: 'Xin chào! Mình là Do Trong Hoa, một người đam mê tùy biến Samsung Galaxy và phát triển module cho thiết bị Samsung.',
+          aboutP2: '🔧 Mình chuyên tạo các module giúp mang những tính năng cao cấp của dòng flagship Samsung như Galaxy AI, Now Brief, AOD xuống các thiết bị Samsung giá rẻ chạy chipset MediaTek và Exynos.',
+          aboutP3: '🌱 Tuy là một newbie nhưng mình luôn cố gắng mang lại trải nghiệm tốt nhất cho cộng đồng Samsung. Mọi dự án đều được phát triển với sự hỗ trợ từ Claude AI và tình yêu dành cho hệ sinh thái OneUI!',
+          contactLabel: 'Liên hệ & Mạng xã hội',
+          repoCount: '6 Kho lưu trữ',
+          catGalaxyAI: 'Galaxy AI Modules',
+          catGalaxyAIDesc: 'Mang trọn trải nghiệm Galaxy AI lên thiết bị Samsung MTK & Exynos',
+          catFeaturePorts: 'Samsung Feature Ports',
+          catFeaturePortsDesc: 'Mang tính năng flagship đến thiết bị Samsung giá rẻ',
+          catCustomization: 'Công cụ Tùy biến',
+          catCustomizationDesc: 'Công cụ tùy biến và tinh chỉnh OneUI toàn diện',
+          catUtilities: 'Tiện ích',
+          catUtilitiesDesc: 'Các công cụ và tiện ích khác',
+          projects: 'dự án',
+          viewRelease: 'Xem Bản phát hành',
+          latest: 'Mới nhất',
+          footerMade: 'Tạo bởi Do Trong Hoa với ❤️',
+          footerPowered: 'Chạy trên GitHub Pages',
+          backToTop: 'Lên đầu trang',
+          replaySunrise: 'Phát lại',
+          navGalaxyAI: '🤖 Galaxy AI',
+          navFeaturePorts: '📱 Feature Ports',
+          navCustomization: '🎨 Tùy biến',
+          navUtilities: '🔧 Tiện ích'
+        },
+        ru: {
+          enterBtn: 'Войти',
+          enterHint: 'Нажмите Enter или кнопку, чтобы открыть ворота',
+          introKicker: 'andrewtuff · Портфолио',
+          introTitle: 'До Тронг Хоа',
+          introSubtitle: 'Начинающий создатель модулей Samsung',
+          aboutTitle: 'Обо мне',
+          aboutP1: 'Привет! Я До Тронг Хоа, энтузиаст кастомизации Samsung Galaxy и разработчик модулей.',
+          aboutP2: '🔧 Я специализируюсь на создании модулей, которые приносят флагманские функции Samsung, такие как Galaxy AI, Now Brief и AOD, на бюджетные устройства Samsung на чипсетах MediaTek и Exynos.',
+          aboutP3: '🌱 Хотя я новичок, я всегда стремлюсь обеспечить лучший опыт для сообщества Samsung. Все проекты разработаны при поддержке Claude AI и с любовью к экосистеме OneUI!',
+          contactLabel: 'Контакты и соцсети',
+          repoCount: '6 Репозиториев',
+          catGalaxyAI: 'Модули Galaxy AI',
+          catGalaxyAIDesc: 'Полный опыт Galaxy AI на устройствах Samsung MTK & Exynos',
+          catFeaturePorts: 'Порты функций Samsung',
+          catFeaturePortsDesc: 'Перенос флагманских функций на бюджетные Samsung Galaxy',
+          catCustomization: 'Инструменты настройки',
+          catCustomizationDesc: 'Комплексные инструменты настройки и тюнинга OneUI',
+          catUtilities: 'Утилиты',
+          catUtilitiesDesc: 'Разные инструменты и утилиты',
+          projects: 'проектов',
+          viewRelease: 'Смотреть релизы',
+          latest: 'Последний',
+          footerMade: 'Сделано с ❤️ До Тронг Хоа',
+          footerPowered: 'На базе GitHub Pages',
+          backToTop: 'Наверх',
+          replaySunrise: 'Повтор',
+          navGalaxyAI: '🤖 Galaxy AI',
+          navFeaturePorts: '📱 Порты',
+          navCustomization: '🎨 Настройка',
+          navUtilities: '🔧 Утилиты'
+        }
+      };
+
+      const extraTranslations = {
+        en: {
+          featuresLabel: 'Features',
+          noReleases: 'No releases',
+          noDesc: 'No description',
+          viewRepo: 'View Repository'
+        },
+        vi: {
+          featuresLabel: 'Tính năng nổi bật',
+          noReleases: 'Chưa có bản phát hành',
+          noDesc: 'Chưa có mô tả',
+          viewRepo: 'Xem Kho lưu trữ'
+        },
+        ru: {
+          featuresLabel: 'Функции',
+          noReleases: 'Нет релизов',
+          noDesc: 'Нет описания',
+          viewRepo: 'Открыть репозиторий'
+        }
+      };
+
+      const STORAGE_KEY = 'andrewtuff_portfolio_lang';
+      let currentLang = 'en';
+
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved && translations[saved]) {
+          currentLang = saved;
+        }
+      } catch (err) {
+        currentLang = 'en';
+      }
+
+      const langButtons = document.querySelectorAll('.lang-pill');
+      let langSwitchAnimating = false;
+
+      /* ---- Ripple burst from the clicked pill ---- */
+      function spawnLangRipple(originEl) {
+        const rect = originEl.getBoundingClientRect();
+        const cx = rect.left + rect.width / 2;
+        const cy = rect.top + rect.height / 2;
+        const maxDim = Math.max(window.innerWidth, window.innerHeight) * 2.2;
+
+        const ripple = document.createElement('div');
+        ripple.className = 'lang-ripple-overlay';
+        ripple.style.width = maxDim + 'px';
+        ripple.style.height = maxDim + 'px';
+        ripple.style.left = (cx - maxDim / 2) + 'px';
+        ripple.style.top = (cy - maxDim / 2) + 'px';
+        document.body.appendChild(ripple);
+
+        requestAnimationFrame(() => ripple.classList.add('is-expanding'));
+        ripple.addEventListener('animationend', () => ripple.remove(), { once: true });
+      }
+
+      /* ---- Apply language (instant, no animation) ---- */
+      function setTextContent(lang) {
+        const dict = translations[lang];
+        const extraDict = extraTranslations[lang];
+        document.querySelectorAll('[data-i18n]').forEach((node) => {
+          const key = node.getAttribute('data-i18n');
+          if (dict[key] !== undefined) node.textContent = dict[key];
+        });
+        document.querySelectorAll('[data-extra-i18n]').forEach((node) => {
+          const key = node.getAttribute('data-extra-i18n');
+          if (extraDict[key] !== undefined) node.textContent = extraDict[key];
+        });
+      }
+
+      /* ---- Apply language with animated transition ---- */
+      function applyLanguage(lang, animate, originBtn) {
+        if (!translations[lang]) lang = 'en';
+        if (lang === currentLang && animate) return; // same language, skip
+        currentLang = lang;
+        document.documentElement.lang = lang;
+        try { localStorage.setItem(STORAGE_KEY, lang); } catch (err) {}
+
+        // Update pill active states
+        langButtons.forEach((btn) => {
+          const isActive = btn.getAttribute('data-lang') === lang;
+          btn.classList.toggle('is-active', isActive);
+          btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+        });
+
+        if (!animate) {
+          setTextContent(lang);
+          return;
+        }
+
+        // --- Animated switch ---
+        if (langSwitchAnimating) {
+          // If mid-animation, just swap text immediately
+          setTextContent(lang);
+          return;
+        }
+        langSwitchAnimating = true;
+
+        // Pop the clicked pill
+        if (originBtn) {
+          originBtn.classList.remove('is-popping');
+          void originBtn.offsetWidth; // force reflow
+          originBtn.classList.add('is-popping');
+          originBtn.addEventListener('animationend', () => originBtn.classList.remove('is-popping'), { once: true });
+        }
+
+        // Spawn golden ripple
+        if (originBtn) spawnLangRipple(originBtn);
+
+        // Collect visible i18n nodes for animation
+        const allNodes = [
+          ...document.querySelectorAll('[data-i18n]'),
+          ...document.querySelectorAll('[data-extra-i18n]')
+        ];
+        const visibleNodes = allNodes.filter(n => {
+          const r = n.getBoundingClientRect();
+          return r.bottom > 0 && r.top < window.innerHeight && r.width > 0;
+        });
+
+        // Phase 1: fade out visible text
+        visibleNodes.forEach((node, i) => {
+          node.style.animationDelay = (i * 15) + 'ms';
+          node.classList.add('lang-fade-out');
+        });
+
+        // After fade-out completes, swap text and fade in
+        const fadeOutDuration = 220 + visibleNodes.length * 15;
+        setTimeout(() => {
+          setTextContent(lang);
+
+          visibleNodes.forEach((node, i) => {
+            node.style.opacity = '0';           // hold invisible to prevent flash
+            node.classList.remove('lang-fade-out');
+            node.style.animationDelay = (i * 20) + 'ms';
+            node.classList.add('lang-fade-in');
+          });
+
+          const fadeInDuration = 320 + visibleNodes.length * 20;
+          setTimeout(() => {
+            visibleNodes.forEach(node => {
+              node.classList.remove('lang-fade-in');
+              node.style.animationDelay = '';
+              node.style.opacity = '';           // restore natural opacity
+            });
+            langSwitchAnimating = false;
+          }, fadeInDuration);
+        }, fadeOutDuration);
+      }
+
+      langButtons.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          applyLanguage(btn.getAttribute('data-lang'), true, btn);
+        });
+      });
+
+      applyLanguage(currentLang, false, null);
+
+      /* ----------------------------------------------------------------------
+         2. DOUBLE DOOR OPENING WITH LIGHT PORTAL & CAMERA BURST (~1.75s)
+         ---------------------------------------------------------------------- */
+      const introDoors = document.getElementById('intro-doors');
+      const enterBtn = document.getElementById('enter-btn');
+      const replaySunriseBtn = document.getElementById('replay-sunrise-btn');
+      const mainWrapper = document.getElementById('main-wrapper');
+
+      let isIntroActive = true;
+      let isAnimatingDoors = false;
+
+      function openDoors() {
+        if (!isIntroActive || isAnimatingDoors) return;
+        isAnimatingDoors = true;
+
+        introDoors.classList.add('is-opening');
+        document.body.classList.add('portfolio-unlocked');
+
+        setTimeout(triggerInitialVisibleReveals, 480);
+
+        setTimeout(() => {
+          introDoors.classList.add('is-hidden');
+          introDoors.setAttribute('aria-hidden', 'true');
+          isIntroActive = false;
+          isAnimatingDoors = false;
+        }, 1750);
+      }
+
+      function replayIntroGate() {
+        if (isAnimatingDoors) return;
+        window.scrollTo({ top: 0, behavior: 'auto' });
+        introDoors.classList.remove('is-hidden', 'is-opening');
+        introDoors.removeAttribute('aria-hidden');
+        document.body.classList.remove('portfolio-unlocked');
+        isIntroActive = true;
+        enterBtn.focus();
+      }
+
+      enterBtn.addEventListener('click', openDoors);
+      replaySunriseBtn.addEventListener('click', replayIntroGate);
+
+      window.addEventListener('keydown', (e) => {
+        if (isIntroActive && e.key === 'Enter') {
+          if (e.target && e.target.closest && e.target.closest('.lang-pill')) {
+            return;
+          }
+          e.preventDefault();
+          openDoors();
+        }
+      });
+
+      /* ----------------------------------------------------------------------
+         3. WIND PARTICLE EFFECT & CURSOR-TRAILING GLINTS
+         ---------------------------------------------------------------------- */
+      const canvas = document.getElementById('wind-canvas');
+      const ctx = canvas.getContext('2d', { alpha: true });
+
+      let width = 0;
+      let height = 0;
+      let dpr = 1;
+
+      const windState = {
+        vx: 0.52,
+        vy: -0.14,
+        targetVx: 0.52,
+        targetVy: -0.14,
+        cursorX: window.innerWidth * 0.5,
+        cursorY: window.innerHeight * 0.5,
+        lastPointerX: null,
+        lastPointerY: null,
+        turbulence: 0,
+        scrollBoost: 0,
+        pointerTrailBoost: 0,
+        pointerSpeed: 0
+      };
+
+      const PARTICLE_COUNT = window.innerWidth < 768 ? 50 : 82;
+      const MAX_TRAIL_PARTICLES = window.innerWidth < 768 ? 90 : 160;
+      const particles = [];
+      const trailParticles = [];
+
+      const NATURE_PALETTE = [
+        { prefix: 'rgba(255, 246, 212, ', kind: 'speck'  }, // Warm sunlit speck
+        { prefix: 'rgba(255, 214, 118, ', kind: 'pollen' }, // Golden pollen
+        { prefix: 'rgba(138, 218, 134, ', kind: 'leaf'   }, // Meadow green leaf
+        { prefix: 'rgba(247, 178, 103, ', kind: 'mote'   }, // Warm dust mote
+        { prefix: 'rgba(255, 198, 214, ', kind: 'leaf'   }  // Blossom petal
+      ];
+
+      const TRAIL_PALETTE = [
+        { prefix: 'rgba(255, 212, 121, ', kind: 'glow' },
+        { prefix: 'rgba(247, 166, 75, ',  kind: 'glow' },
+        { prefix: 'rgba(255, 248, 224, ', kind: 'glint' },
+        { prefix: 'rgba(138, 218, 134, ', kind: 'leaf' }
+      ];
+
+      function createParticle(randomPos) {
+        const entry = NATURE_PALETTE[Math.floor(Math.random() * NATURE_PALETTE.length)];
+        const isLeaf = entry.kind === 'leaf';
+        const isPollen = entry.kind === 'pollen';
+        const size = isLeaf
+          ? 2.8 + Math.random() * 3.8
+          : isPollen
+            ? 1.8 + Math.random() * 2.2
+            : 1.1 + Math.random() * 2.4;
+
+        return {
+          x: randomPos ? Math.random() * width : -20,
+          y: randomPos ? Math.random() * height : Math.random() * height,
+          size,
+          kind: entry.kind,
+          colorPrefix: entry.prefix,
+          angle: Math.random() * Math.PI * 2,
+          spin: (Math.random() - 0.5) * 0.055,
+          speedFactor: 0.55 + Math.random() * 1.15,
+          followStrength: 0.25 + Math.random() * 0.85,
+          phase: Math.random() * Math.PI * 2,
+          freq: 0.012 + Math.random() * 0.022,
+          baseAlpha: 0.22 + Math.random() * 0.58
+        };
+      }
+
+      function spawnCursorTrail(x, y, dx, dy, speed) {
+        const count = Math.min(6, Math.max(1, Math.floor(speed / 6) + (Math.random() < 0.45 ? 1 : 0)));
+        const normX = speed > 0.01 ? dx / speed : 0;
+        const normY = speed > 0.01 ? dy / speed : 0;
+
+        for (let i = 0; i < count; i++) {
+          if (trailParticles.length >= MAX_TRAIL_PARTICLES) {
+            trailParticles.shift();
+          }
+
+          const isGlint = Math.random() < 0.24;
+          const entry = isGlint
+            ? { prefix: 'rgba(255, 248, 220, ', kind: 'glint' }
+            : TRAIL_PALETTE[Math.floor(Math.random() * TRAIL_PALETTE.length)];
+
+          const spread = (Math.random() - 0.5) * 1.9;
+          const backSpeed = 0.6 + Math.random() * 1.6 + Math.min(2.2, speed * 0.045);
+
+          trailParticles.push({
+            x: x - normX * (4 + Math.random() * 10) + (Math.random() - 0.5) * 10,
+            y: y - normY * (4 + Math.random() * 10) + (Math.random() - 0.5) * 10,
+            vx: -normX * backSpeed + spread * 0.55 + windState.vx * 0.35,
+            vy: -normY * backSpeed + spread * 0.55 + windState.vy * 0.35,
+            size: isGlint ? 2.4 + Math.random() * 2.6 : 1.4 + Math.random() * 2.5,
+            kind: entry.kind,
+            colorPrefix: entry.prefix,
+            alpha: isGlint ? 0.95 : 0.65 + Math.random() * 0.28,
+            life: 1,
+            decay: isGlint ? 0.028 + Math.random() * 0.018 : 0.018 + Math.random() * 0.016,
+            angle: Math.random() * Math.PI * 2,
+            spin: (Math.random() - 0.5) * 0.12
+          });
+        }
+      }
+
+      function resizeCanvas() {
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+        width = window.innerWidth;
+        height = window.innerHeight;
+        canvas.width = Math.floor(width * dpr);
+        canvas.height = Math.floor(height * dpr);
+        canvas.style.width = width + 'px';
+        canvas.style.height = height + 'px';
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+
+      resizeCanvas();
+      for (let i = 0; i < PARTICLE_COUNT; i++) {
+        particles.push(createParticle(true));
+      }
+
+      window.addEventListener('resize', resizeCanvas, { passive: true });
+
+      window.addEventListener('mousemove', (e) => {
+        if (windState.lastPointerX !== null) {
+          const dx = e.clientX - windState.lastPointerX;
+          const dy = e.clientY - windState.lastPointerY;
+          windState.targetVx = clamp(dx * 0.28, -11, 11);
+          windState.targetVy = clamp(dy * 0.28, -11, 11);
+          const distMoved = Math.hypot(dx, dy);
+          windState.pointerSpeed = distMoved;
+          windState.turbulence = Math.min(2.1, windState.turbulence + distMoved * 0.02);
+          windState.pointerTrailBoost = Math.min(1.0, windState.pointerTrailBoost + distMoved * 0.015);
+          if (distMoved > 1.2) {
+            spawnCursorTrail(e.clientX, e.clientY, dx, dy, distMoved);
+          }
+        }
+        windState.cursorX = e.clientX;
+        windState.cursorY = e.clientY;
+        windState.lastPointerX = e.clientX;
+        windState.lastPointerY = e.clientY;
+      }, { passive: true });
+
+      window.addEventListener('mouseleave', () => {
+        windState.lastPointerX = null;
+        windState.lastPointerY = null;
+      });
+
+      let lastTouchX = null;
+      let lastTouchY = null;
+
+      window.addEventListener('touchstart', (e) => {
+        if (e.touches.length > 0) {
+          lastTouchX = e.touches[0].clientX;
+          lastTouchY = e.touches[0].clientY;
+          windState.cursorX = lastTouchX;
+          windState.cursorY = lastTouchY;
+        }
+      }, { passive: true });
+
+      window.addEventListener('touchmove', (e) => {
+        if (e.touches.length > 0) {
+          const tx = e.touches[0].clientX;
+          const ty = e.touches[0].clientY;
+          if (lastTouchX !== null) {
+            const dx = tx - lastTouchX;
+            const dy = ty - lastTouchY;
+            const distMoved = Math.hypot(dx, dy);
+            windState.targetVx = clamp(dx * 0.3, -12, 12);
+            windState.targetVy = clamp(dy * 0.3, -12, 12);
+            windState.pointerSpeed = distMoved;
+            windState.turbulence = Math.min(2.1, windState.turbulence + distMoved * 0.024);
+            windState.pointerTrailBoost = Math.min(1.0, windState.pointerTrailBoost + 0.3);
+            if (distMoved > 1.5) {
+              spawnCursorTrail(tx, ty, dx, dy, distMoved);
+            }
+          }
+          windState.cursorX = tx;
+          windState.cursorY = ty;
+          lastTouchX = tx;
+          lastTouchY = ty;
+        }
+      }, { passive: true });
+
+      window.addEventListener('touchend', () => {
+        lastTouchX = null;
+        lastTouchY = null;
+      }, { passive: true });
+
+      /* ----------------------------------------------------------------------
+         4. ENHANCED SCROLL MOMENTUM, PARALLAX DEPTH & BACKGROUND COLOR SHIFT
+         ---------------------------------------------------------------------- */
+      const scrollProgressFill = document.getElementById('scroll-progress-fill');
+      const backdropMid = document.getElementById('backdrop-mid');
+      const backdropDeep = document.getElementById('backdrop-deep');
+      const orb1 = document.getElementById('orb-1');
+      const orb2 = document.getElementById('orb-2');
+      const orb3 = document.getElementById('orb-3');
+      const parallaxLayers = Array.from(document.querySelectorAll('.parallax-layer[data-parallax]'));
+
+      let lastScrollY = window.scrollY;
+      let smoothedVelocity = 0;
+      let scrollPct = 0;
+      let lastScrollSampleTime = performance.now();
+
+      window.addEventListener('scroll', () => {
+        const now = performance.now();
+        const dt = Math.max(8, now - lastScrollSampleTime);
+        const currentY = window.scrollY;
+        const delta = currentY - lastScrollY;
+        const instantVel = (delta / dt) * 16;
+
+        smoothedVelocity = smoothedVelocity * 0.5 + instantVel * 0.5;
+        // Accelerate wind particles in scroll direction
+        windState.scrollBoost = clamp(windState.scrollBoost + (-delta * 0.11), -16, 16);
+
+        lastScrollY = currentY;
+        lastScrollSampleTime = now;
+
+        const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+        scrollPct = clamp(currentY / maxScroll, 0, 1);
+        scrollProgressFill.style.width = (scrollPct * 100).toFixed(2) + '%';
+      }, { passive: true });
+
+      function animateFrame() {
+        smoothedVelocity *= 0.9;
+        if (Math.abs(smoothedVelocity) < 0.02) smoothedVelocity = 0;
+
+        const y = window.scrollY;
+        const absVel = Math.abs(smoothedVelocity);
+        const momentumScale = 1 + Math.min(0.22, absVel * 0.009);
+
+        // Progress bar glow boost during fast scrolling
+        if (scrollProgressFill) {
+          scrollProgressFill.style.filter = absVel > 1
+            ? 'brightness(' + (1 + Math.min(0.45, absVel * 0.02)).toFixed(2) + ')'
+            : 'brightness(1)';
+        }
+
+        // Subtle color shift in background gradient based on scroll position
+        if (backdropMid && backdropDeep) {
+          const midAlpha = clamp(Math.sin(scrollPct * Math.PI), 0, 1);
+          const deepAlpha = clamp((scrollPct - 0.35) / 0.65, 0, 1);
+          backdropMid.style.opacity = (midAlpha * 0.92).toFixed(3);
+          backdropDeep.style.opacity = (deepAlpha * 0.95).toFixed(3);
+        }
+
+        // Ambient orbs shifting at distinct parallax speeds + momentum stretch
+        if (orb1 && orb2 && orb3) {
+          orb1.style.transform = `translate3d(0, ${(y * 0.14 + smoothedVelocity * 1.6).toFixed(1)}px, 0) scale(${momentumScale.toFixed(3)})`;
+          orb2.style.transform = `translate3d(0, ${(-y * 0.12 - smoothedVelocity * 1.2).toFixed(1)}px, 0)`;
+          orb3.style.transform = `translate3d(0, ${(-y * 0.09 + smoothedVelocity * 1.8).toFixed(1)}px, 0) scale(${momentumScale.toFixed(3)})`;
+        }
+
+        // Parallax depth & subtle scroll-momentum response on sections & cards
+        if (!isIntroActive && parallaxLayers.length) {
+          const viewportMid = window.innerHeight * 0.5;
+          for (let i = 0; i < parallaxLayers.length; i++) {
+            const layer = parallaxLayers[i];
+            const speed = parseFloat(layer.getAttribute('data-parallax')) || 0;
+            const rect = layer.getBoundingClientRect();
+            const offsetFromCenter = rect.top + rect.height * 0.5 - viewportMid;
+            const py = clamp(offsetFromCenter * speed + smoothedVelocity * (speed * 18), -32, 32);
+            layer.style.transform = `translate3d(0, ${py.toFixed(1)}px, 0)`;
+          }
+        }
+
+        // Wind vector decay back toward gentle garden breeze
+        windState.targetVx = windState.targetVx * 0.955 + 0.52 * 0.045;
+        windState.targetVy = windState.targetVy * 0.955 - 0.14 * 0.045;
+        windState.vx += (windState.targetVx - windState.vx) * 0.09;
+        windState.vy += (windState.targetVy - windState.vy) * 0.09;
+        windState.turbulence *= 0.955;
+        windState.pointerTrailBoost *= 0.92;
+        windState.pointerSpeed *= 0.85;
+        windState.scrollBoost *= 0.9;
+
+        // Render Wind Particles + Cursor Trail Particles
+        ctx.clearRect(0, 0, width, height);
+        const speedMultiplier = 1 + Math.min(3.2, absVel * 0.11);
+
+        for (let i = 0; i < particles.length; i++) {
+          const p = particles[i];
+          p.phase += p.freq * speedMultiplier;
+          p.angle += p.spin * (1 + windState.turbulence);
+
+          const dx = windState.cursorX - p.x;
+          const dy = windState.cursorY - p.y;
+          const distSq = dx * dx + dy * dy;
+          let swirlX = 0;
+          let swirlY = 0;
+
+          // Ambient particles strongly stream & swirl around cursor when moving
+          if (distSq < 58000 && distSq > 9) {
+            const dist = Math.sqrt(distSq);
+            const influence = 1 - dist / 241;
+            const tangentForce = influence * (0.75 + windState.turbulence * 1.15);
+            const trailForce = influence * windState.pointerTrailBoost * p.followStrength * 2.1;
+            swirlX = (-dy / dist) * tangentForce * 1.45 + (dx / dist) * trailForce;
+            swirlY = (dx / dist) * tangentForce * 1.45 + (dy / dist) * trailForce;
+          }
+
+          const flutterX = Math.cos(p.phase) * 0.36;
+          const flutterY = Math.sin(p.phase * 1.25) * 0.42;
+
+          p.x += (windState.vx * p.speedFactor + flutterX + swirlX) * speedMultiplier;
+          p.y += ((windState.vy + windState.scrollBoost * 0.42) * p.speedFactor + flutterY + swirlY) * speedMultiplier;
+
+          if (p.x > width + 24) p.x = -20;
+          else if (p.x < -24) p.x = width + 20;
+
+          if (p.y > height + 24) p.y = -20;
+          else if (p.y < -24) p.y = height + 20;
+
+          const alpha = clamp(p.baseAlpha + windState.turbulence * 0.16, 0.16, 0.92);
+          ctx.fillStyle = p.colorPrefix + alpha.toFixed(2) + ')';
+
+          if (p.kind === 'leaf') {
+            ctx.save();
+            ctx.translate(p.x, p.y);
+            ctx.rotate(p.angle);
+            ctx.beginPath();
+            ctx.ellipse(0, 0, p.size * 1.5, p.size * 0.56, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.restore();
+          } else {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        }
+
+        // Render and fade cursor-trailing wind particles & sparkle glints
+        for (let i = trailParticles.length - 1; i >= 0; i--) {
+          const tp = trailParticles[i];
+          tp.x += tp.vx + windState.vx * 0.25;
+          tp.y += tp.vy + windState.vy * 0.25;
+          tp.vx *= 0.96;
+          tp.vy *= 0.96;
+          tp.angle += tp.spin;
+          tp.life -= tp.decay;
+
+          if (tp.life <= 0) {
+            trailParticles.splice(i, 1);
+            continue;
+          }
+
+          const currentAlpha = clamp(tp.alpha * tp.life, 0, 1);
+          ctx.fillStyle = tp.colorPrefix + currentAlpha.toFixed(2) + ')';
+
+          if (tp.kind === 'glint') {
+            ctx.save();
+            ctx.translate(tp.x, tp.y);
+            ctx.rotate(tp.angle);
+            const r = tp.size * (0.6 + tp.life * 0.8);
+            ctx.beginPath();
+            ctx.moveTo(0, -r * 1.8);
+            ctx.lineTo(r * 0.42, -r * 0.42);
+            ctx.lineTo(r * 1.8, 0);
+            ctx.lineTo(r * 0.42, r * 0.42);
+            ctx.lineTo(0, r * 1.8);
+            ctx.lineTo(-r * 0.42, r * 0.42);
+            ctx.lineTo(-r * 1.8, 0);
+            ctx.lineTo(-r * 0.42, -r * 0.42);
+            ctx.closePath();
+            ctx.fill();
+            ctx.restore();
+          } else if (tp.kind === 'leaf') {
+            ctx.save();
+            ctx.translate(tp.x, tp.y);
+            ctx.rotate(tp.angle);
+            ctx.beginPath();
+            ctx.ellipse(0, 0, tp.size * 1.45, tp.size * 0.55, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.restore();
+          } else {
+            ctx.beginPath();
+            ctx.arc(tp.x, tp.y, tp.size * (0.4 + tp.life * 0.75), 0, Math.PI * 2);
+            ctx.fill();
+          }
+        }
+
+        requestAnimationFrame(animateFrame);
+      }
+
+      requestAnimationFrame(animateFrame);
+
+      /* ----------------------------------------------------------------------
+         5. INTERSECTION OBSERVER SCROLL REVEAL ANIMATIONS
+         ---------------------------------------------------------------------- */
+      const revealItems = Array.from(document.querySelectorAll('.reveal-item'));
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.08, rootMargin: '0px 0px -28px 0px' }
+      );
+
+      function triggerInitialVisibleReveals() {
+        revealItems.forEach((el) => {
+          observer.observe(el);
+          const rect = el.getBoundingClientRect();
+          if (rect.top < window.innerHeight * 0.96) {
+            el.classList.add('is-visible');
+            observer.unobserve(el);
+          }
+        });
+      }
+
+      /* ----------------------------------------------------------------------
+         6. 3D TILT EFFECT + CURSOR SPOTLIGHT GLOW ON REPOSITORY CARDS
+         ---------------------------------------------------------------------- */
+      const isTouchPrimary = window.matchMedia('(hover: none)').matches;
+
+      function attachCardEffects(card) {
+        if (isTouchPrimary || card.dataset.effectsBound === '1') return;
+        card.dataset.effectsBound = '1';
+
+        card.addEventListener('mouseenter', () => {
+          card.classList.add('is-tilting');
+          card.style.setProperty('--glow-opacity', '1');
+        });
+
+        card.addEventListener('mousemove', (e) => {
+          const rect = card.getBoundingClientRect();
+          const px = (e.clientX - rect.left) / rect.width;
+          const py = (e.clientY - rect.top) / rect.height;
+
+          const rotateY = (px - 0.5) * 12;
+          const rotateX = (0.5 - py) * 10;
+
+          const glowX = (e.clientX - rect.left).toFixed(1) + 'px';
+          const glowY = (e.clientY - rect.top).toFixed(1) + 'px';
+
+          card.style.setProperty('--glow-x', glowX);
+          card.style.setProperty('--glow-y', glowY);
+          card.style.setProperty('--glow-opacity', '1');
+          card.style.transform = `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) scale3d(1.018, 1.018, 1.018)`;
+        });
+
+        card.addEventListener('mouseleave', () => {
+          card.classList.remove('is-tilting');
+          card.style.setProperty('--glow-opacity', '0');
+          card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+        });
+      }
+
+      document.querySelectorAll('.repo-card').forEach(attachCardEffects);
+
+      /* ----------------------------------------------------------------------
+         7. BOTTOM ELASTIC BOUNCE-BACK & AUTO SCROLL-UP (2s COOLDOWN)
+         ---------------------------------------------------------------------- */
+      const backToTopBtn = document.getElementById('back-to-top-btn');
+
+      let overscrollAmount = 0;
+      let wheelResetTimer = null;
+      let bounceTimeout = null;
+      let bounceCooldownUntil = 0;
+      let touchPullStartY = null;
+      let isPullingBottom = false;
+      let isBouncing = false;
+
+      function isAtPageBottom() {
+        const scrollTop = window.scrollY || document.documentElement.scrollTop;
+        const viewportH = window.innerHeight;
+        const totalH = document.documentElement.scrollHeight;
+        return scrollTop + viewportH >= totalH - 4;
+      }
+
+      function applyOverscrollPull(px) {
+        const damped = Math.min(48, px * 0.36);
+        mainWrapper.classList.remove('is-bouncing');
+        mainWrapper.classList.add('is-pulling');
+        mainWrapper.style.transform = `translate3d(0, -${damped.toFixed(1)}px, 0)`;
+      }
+
+      function triggerElasticBounce(shouldScrollUp) {
+        if (isBouncing) return;
+        mainWrapper.classList.remove('is-pulling');
+        mainWrapper.style.transform = '';
+        overscrollAmount = 0;
+
+        if (!shouldScrollUp) return;
+
+        const now = performance.now();
+        if (now < bounceCooldownUntil) return;
+
+        isBouncing = true;
+        bounceCooldownUntil = now + 2000;
+
+        // Restart CSS bounceUp keyframe animation cleanly
+        mainWrapper.classList.remove('is-bouncing');
+        void mainWrapper.offsetWidth;
+        mainWrapper.classList.add('is-bouncing');
+
+        clearTimeout(bounceTimeout);
+        bounceTimeout = setTimeout(() => {
+          mainWrapper.classList.remove('is-bouncing');
+          isBouncing = false;
+          const targetY = Math.max(0, window.scrollY - 250);
+          window.scrollTo({ top: targetY, behavior: 'smooth' });
+        }, 600);
+      }
+
+      window.addEventListener('wheel', (e) => {
+        if (isIntroActive || isBouncing) return;
+        if (performance.now() < bounceCooldownUntil) return;
+
+        if (isAtPageBottom() && e.deltaY > 0) {
+          overscrollAmount += e.deltaY;
+          applyOverscrollPull(overscrollAmount);
+
+          clearTimeout(wheelResetTimer);
+          wheelResetTimer = setTimeout(() => {
+            const shouldBounce = overscrollAmount >= 40;
+            triggerElasticBounce(shouldBounce);
+          }, 120);
+        } else if (overscrollAmount > 0 && e.deltaY < 0) {
+          clearTimeout(wheelResetTimer);
+          triggerElasticBounce(false);
+        }
+      }, { passive: true });
+
+      window.addEventListener('keydown', (e) => {
+        if (isIntroActive || isBouncing) return;
+        if (performance.now() < bounceCooldownUntil) return;
+        if ((e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') && isAtPageBottom()) {
+          applyOverscrollPull(90);
+          clearTimeout(wheelResetTimer);
+          wheelResetTimer = setTimeout(() => {
+            triggerElasticBounce(true);
+          }, 140);
+        }
+      });
+
+      window.addEventListener('touchstart', (e) => {
+        if (isIntroActive || isBouncing) return;
+        if (isAtPageBottom() && e.touches.length === 1) {
+          touchPullStartY = e.touches[0].clientY;
+          isPullingBottom = false;
+        } else {
+          touchPullStartY = null;
+        }
+      }, { passive: true });
+
+      window.addEventListener('touchmove', (e) => {
+        if (touchPullStartY === null || isIntroActive || isBouncing) return;
+        if (performance.now() < bounceCooldownUntil) return;
+
+        const currentY = e.touches[0].clientY;
+        const dragUpDelta = touchPullStartY - currentY;
+
+        if (isAtPageBottom() && dragUpDelta > 6) {
+          isPullingBottom = true;
+          overscrollAmount = dragUpDelta;
+          applyOverscrollPull(overscrollAmount);
+        }
+      }, { passive: true });
+
+      window.addEventListener('touchend', () => {
+        if (isPullingBottom) {
+          const shouldBounce = overscrollAmount >= 36;
+          triggerElasticBounce(shouldBounce);
+        }
+        touchPullStartY = null;
+        isPullingBottom = false;
+      }, { passive: true });
+
+      backToTopBtn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+
+      /* ----------------------------------------------------------------------
+         8. ENHANCED CUSTOM CURSOR WITH SMOOTH TRAIL RING
+         ---------------------------------------------------------------------- */
+      const cursorDot = document.getElementById('cursor-dot');
+      const cursorRing = document.getElementById('cursor-ring');
+      let cursorX = window.innerWidth * 0.5;
+      let cursorY = window.innerHeight * 0.5;
+      let dotX = cursorX;
+      let dotY = cursorY;
+      let ringX = cursorX;
+      let ringY = cursorY;
+
+      if (cursorDot && cursorRing && !isTouchPrimary) {
+        document.addEventListener('mousemove', (e) => {
+          cursorX = e.clientX;
+          cursorY = e.clientY;
+          document.body.classList.add('cursor-visible');
+        }, { passive: true });
+
+        document.addEventListener('mouseleave', () => {
+          document.body.classList.remove('cursor-visible');
+        });
+
+        function animateCursor() {
+          dotX += (cursorX - dotX) * 0.42;
+          dotY += (cursorY - dotY) * 0.42;
+          ringX += (cursorX - ringX) * 0.14;
+          ringY += (cursorY - ringY) * 0.14;
+
+          cursorDot.style.left = dotX.toFixed(2) + 'px';
+          cursorDot.style.top = dotY.toFixed(2) + 'px';
+          cursorRing.style.left = ringX.toFixed(2) + 'px';
+          cursorRing.style.top = ringY.toFixed(2) + 'px';
+
+          requestAnimationFrame(animateCursor);
+        }
+        requestAnimationFrame(animateCursor);
+
+        const interactiveSelector = 'a, button, [role="button"], .repo-card, .nav-link, .lang-pill, .lang-btn, .about-link-btn, .footer-pill-btn';
+
+        document.addEventListener('mouseover', (e) => {
+          if (e.target && e.target.closest && e.target.closest(interactiveSelector)) {
+            document.body.classList.add('cursor-hover');
+          }
+        });
+
+        document.addEventListener('mouseout', (e) => {
+          const fromInteractive = e.target && e.target.closest && e.target.closest(interactiveSelector);
+          const toInteractive = e.relatedTarget && e.relatedTarget.closest && e.relatedTarget.closest(interactiveSelector);
+          if (fromInteractive && !toInteractive) {
+            document.body.classList.remove('cursor-hover');
+          }
+        });
+      }
+
+      /* ----------------------------------------------------------------------
+         9. LIVE GITHUB AUTO-SYNC (LATEST RELEASES + AUTO-DETECT NEW REPOS)
+         ---------------------------------------------------------------------- */
+      (function initGitHubAutoSync() {
+        const GH_USER = 'andrewtuff';
+        const CACHE_KEY = 'andrewtuff_gh_sync_v1';
+        const CACHE_TTL_MS = 10 * 60 * 1000; // 10 minutes
+        const IGNORED_REPOS = new Set(['andrewtuff.github.io', 'andrewtuff']);
+
+        const CATEGORY_ICONS = {
+          'cat-galaxy-ai': '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9L12 3z"></path></svg>',
+          'cat-feature-ports': '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>',
+          'cat-customization': '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5"></circle><circle cx="17.5" cy="10.5" r=".5"></circle><circle cx="8.5" cy="7.5" r=".5"></circle><circle cx="6.5" cy="12.5" r=".5"></circle><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"></path></svg>',
+          'cat-utilities': '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>'
+        };
+
+        function classifyRepo(name, description) {
+          const text = (name + ' ' + (description || '')).toLowerCase();
+          if (/galaxy\s*ai|galaxyai|\bai\b/.test(text)) return 'cat-galaxy-ai';
+          if (/aod|now[\s-]*brief|port|budget|root|samsung/.test(text)) return 'cat-feature-ports';
+          if (/design|theme|custom|icon|oneui|style|font/.test(text)) return 'cat-customization';
+          return 'cat-utilities';
+        }
+
+        function setReleasePill(pillEl, releaseLabel) {
+          pillEl.className = 'release-pill';
+          pillEl.removeAttribute('data-extra-i18n');
+          pillEl.textContent = '';
+          pillEl.appendChild(document.createTextNode('🏷️ '));
+          const latestSpan = document.createElement('span');
+          latestSpan.setAttribute('data-i18n', 'latest');
+          latestSpan.textContent = translations[currentLang].latest;
+          pillEl.appendChild(latestSpan);
+          pillEl.appendChild(document.createTextNode(': ' + releaseLabel));
+        }
+
+        function buildRepoCardNode(item, categoryId, index) {
+          const parallax = document.createElement('div');
+          parallax.className = 'parallax-layer';
+          parallax.setAttribute('data-parallax', index % 2 === 0 ? '-0.015' : '0.015');
+
+          const reveal = document.createElement('div');
+          reveal.className = 'reveal-item';
+          reveal.style.setProperty('--reveal-delay', (80 + (index % 4) * 60) + 'ms');
+
+          const shell = document.createElement('div');
+          shell.className = 'card-float-shell';
+          shell.style.setProperty('--float-delay', (-0.6 - (index % 5) * 0.7).toFixed(1) + 's');
+
+          const card = document.createElement('a');
+          card.className = 'repo-card';
+          card.href = item.latestRelease ? (item.html_url + '/releases') : item.html_url;
+          card.target = '_blank';
+          card.rel = 'noopener noreferrer';
+
+          const glare = document.createElement('div');
+          glare.className = 'repo-card-glare';
+          glare.setAttribute('aria-hidden', 'true');
+          card.appendChild(glare);
+
+          const top = document.createElement('div');
+          top.className = 'repo-card-top';
+
+          const metaRow = document.createElement('div');
+          metaRow.className = 'repo-meta-row';
+
+          const iconBadge = document.createElement('span');
+          iconBadge.className = 'repo-icon-badge';
+          iconBadge.setAttribute('aria-hidden', 'true');
+          iconBadge.innerHTML = CATEGORY_ICONS[categoryId] || CATEGORY_ICONS['cat-utilities'];
+          metaRow.appendChild(iconBadge);
+
+          const pill = document.createElement('span');
+          if (item.latestRelease) {
+            setReleasePill(pill, item.latestRelease);
+          } else {
+            pill.className = 'release-pill release-pill--muted';
+            pill.setAttribute('data-extra-i18n', 'noReleases');
+            pill.textContent = extraTranslations[currentLang].noReleases;
+          }
+          metaRow.appendChild(pill);
+          top.appendChild(metaRow);
+
+          const title = document.createElement('h3');
+          title.className = 'repo-name';
+          title.textContent = item.name;
+          top.appendChild(title);
+
+          const desc = document.createElement('p');
+          if (item.description && item.description.trim()) {
+            desc.className = 'repo-desc';
+            desc.textContent = item.description.trim();
+          } else {
+            desc.className = 'repo-desc repo-desc--empty';
+            desc.setAttribute('data-extra-i18n', 'noDesc');
+            desc.textContent = extraTranslations[currentLang].noDesc;
+          }
+          top.appendChild(desc);
+          card.appendChild(top);
+
+          const footer = document.createElement('div');
+          footer.className = 'repo-card-footer';
+          const footerLabel = document.createElement('span');
+          if (item.latestRelease) {
+            footerLabel.setAttribute('data-i18n', 'viewRelease');
+            footerLabel.textContent = translations[currentLang].viewRelease;
+          } else {
+            footerLabel.setAttribute('data-extra-i18n', 'viewRepo');
+            footerLabel.textContent = extraTranslations[currentLang].viewRepo;
+          }
+          footer.appendChild(footerLabel);
+
+          const arrow = document.createElement('span');
+          arrow.className = 'repo-arrow';
+          arrow.setAttribute('aria-hidden', 'true');
+          arrow.textContent = '↗';
+          footer.appendChild(arrow);
+          card.appendChild(footer);
+
+          shell.appendChild(card);
+          reveal.appendChild(shell);
+          parallax.appendChild(reveal);
+
+          attachCardEffects(card);
+          observer.observe(reveal);
+
+          return parallax;
+        }
+
+        function updateRepoCounters() {
+          let totalCount = 0;
+          ['cat-galaxy-ai', 'cat-feature-ports', 'cat-customization', 'cat-utilities'].forEach((catId) => {
+            const section = document.getElementById(catId);
+            if (!section) return;
+            const count = section.querySelectorAll('.repo-card').length;
+            totalCount += count;
+            const badge = section.querySelector('.category-count');
+            if (badge) {
+              badge.textContent = '';
+              badge.appendChild(document.createTextNode(count + ' '));
+              const projSpan = document.createElement('span');
+              projSpan.setAttribute('data-i18n', 'projects');
+              projSpan.textContent = translations[currentLang].projects;
+              badge.appendChild(projSpan);
+            }
+          });
+
+          if (totalCount > 0) {
+            translations.en.repoCount = totalCount + ' Repositories';
+            translations.vi.repoCount = totalCount + ' Kho lưu trữ';
+            translations.ru.repoCount = totalCount + ' Репозиториев';
+            setTextContent(currentLang);
+          }
+        }
+
+        function applySyncedRepos(items) {
+          if (!Array.isArray(items) || !items.length) return;
+
+          // Index existing cards by lowercase repo name
+          const existingCards = new Map();
+          document.querySelectorAll('.repo-card').forEach((card) => {
+            const nameEl = card.querySelector('.repo-name');
+            if (nameEl) {
+              existingCards.set(nameEl.textContent.trim().toLowerCase(), card);
+            }
+          });
+
+          let addedNew = false;
+
+          items.forEach((item, idx) => {
+            const key = item.name.toLowerCase();
+            if (IGNORED_REPOS.has(key)) return;
+
+            const existing = existingCards.get(key);
+            if (existing) {
+              // Update latest release badge & link on existing card without touching user's description
+              if (item.latestRelease) {
+                existing.href = item.html_url + '/releases';
+                const pill = existing.querySelector('.release-pill');
+                if (pill) setReleasePill(pill, item.latestRelease);
+
+                const footerSpan = existing.querySelector('.repo-card-footer > span:first-child');
+                if (footerSpan && footerSpan.hasAttribute('data-extra-i18n')) {
+                  footerSpan.removeAttribute('data-extra-i18n');
+                  footerSpan.setAttribute('data-i18n', 'viewRelease');
+                  footerSpan.textContent = translations[currentLang].viewRelease;
+                }
+              }
+            } else {
+              // Brand-new repository discovered on GitHub: auto-categorize & render
+              const catId = classifyRepo(item.name, item.description);
+              const grid = document.querySelector('#' + catId + ' .repo-grid');
+              if (grid) {
+                const node = buildRepoCardNode(item, catId, idx);
+                grid.appendChild(node);
+                existingCards.set(key, node.querySelector('.repo-card'));
+                addedNew = true;
+              }
+            }
+          });
+
+          if (addedNew) {
+            updateRepoCounters();
+          } else {
+            setTextContent(currentLang);
+          }
+        }
+
+        async function fetchLatestRelease(repoName) {
+          try {
+            const res = await fetch(`https://api.github.com/repos/${GH_USER}/${encodeURIComponent(repoName)}/releases/latest`, {
+              headers: { 'Accept': 'application/vnd.github+json' }
+            });
+            if (!res.ok) return null;
+            const data = await res.json();
+            const label = (data.name && data.name.trim()) || (data.tag_name && data.tag_name.trim()) || null;
+            return label;
+          } catch (err) {
+            return null;
+          }
+        }
+
+        async function syncFromGitHub() {
+          try {
+            const cachedRaw = sessionStorage.getItem(CACHE_KEY);
+            if (cachedRaw) {
+              const cached = JSON.parse(cachedRaw);
+              if (cached && cached.ts && (Date.now() - cached.ts) < CACHE_TTL_MS && Array.isArray(cached.items)) {
+                applySyncedRepos(cached.items);
+                return;
+              }
+            }
+          } catch (err) {}
+
+          try {
+            const res = await fetch(`https://api.github.com/users/${GH_USER}/repos?per_page=100&sort=updated`, {
+              headers: { 'Accept': 'application/vnd.github+json' }
+            });
+            if (!res.ok) return;
+            const repos = await res.json();
+            if (!Array.isArray(repos)) return;
+
+            const filtered = repos.filter((r) => !r.fork && !r.archived && !IGNORED_REPOS.has((r.name || '').toLowerCase()));
+
+            const items = await Promise.all(
+              filtered.map(async (r) => ({
+                name: r.name,
+                description: r.description || '',
+                html_url: r.html_url,
+                latestRelease: await fetchLatestRelease(r.name)
+              }))
+            );
+
+            try {
+              sessionStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), items }));
+            } catch (err) {}
+
+            applySyncedRepos(items);
+          } catch (err) {
+            // Silent fallback to static HTML content
+          }
+        }
+
+        syncFromGitHub();
+      })();
+
+      function clamp(val, min, max) {
+        return Math.min(max, Math.max(min, val));
+      }
+    })();
+  </script>
+</body>
+</html>
